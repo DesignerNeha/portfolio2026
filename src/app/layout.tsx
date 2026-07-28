@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Background3D from "@/components/Background3D";
+import CustomCursor from "@/components/CustomCursor";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-sans",
@@ -39,29 +40,32 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${spaceGrotesk.variable} ${instrumentSerif.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)] transition-colors duration-200">
+      <head>
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
                   var savedTheme = localStorage.getItem('theme');
-                  if (savedTheme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                  } else {
+                  if (savedTheme === 'light') {
                     document.documentElement.setAttribute('data-theme', 'light');
+                  } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
                   }
                 } catch (e) {}
               })()
             `,
           }}
         />
+      </head>
+      <body className="min-h-full flex flex-col bg-transparent text-[var(--foreground)] transition-colors duration-200">
+        <CustomCursor />
         <Background3D />
         {children}
       </body>
     </html>
   );
 }
-
-

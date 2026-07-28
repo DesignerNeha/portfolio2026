@@ -1,16 +1,19 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { motion, useInView, useAnimation, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 // Interactive Count-Up component
 function Counter({ target, suffix }: { target: number; suffix: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   useEffect(() => {
+    if (!isInView) return;
+    
     let cur = 0;
     let frameId: number;
-    let observer: IntersectionObserver;
 
     const step = () => {
       cur += Math.max(1, Math.ceil(target / 30));
@@ -22,29 +25,13 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
       frameId = requestAnimationFrame(step);
     };
 
-    if (ref.current) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((en) => {
-            if (en.isIntersecting) {
-              step();
-              observer.unobserve(en.target);
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-      observer.observe(ref.current);
-    }
+    frameId = requestAnimationFrame(step);
 
-    return () => {
-      cancelAnimationFrame(frameId);
-      if (observer && ref.current) observer.unobserve(ref.current);
-    };
-  }, [target]);
+    return () => cancelAnimationFrame(frameId);
+  }, [isInView, target]);
 
   return (
-    <div ref={ref} style={{ fontFamily: "var(--font-serif), Georgia, serif", fontSize: "2.4rem", color: "#BF4B0A" }}>
+    <div ref={ref} className="font-serif text-[2.4rem] text-[var(--color-primary)]">
       {count}
       {suffix}
     </div>
@@ -53,116 +40,140 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
 
 export function About() {
   const avatarRef = useRef<HTMLDivElement>(null);
-
+  const isInView = useInView(avatarRef, { once: true, margin: "-100px" });
+  
   // 3D perspective mouse tilt effect for the designer illustration
-  useEffect(() => {
-    const av = avatarRef.current;
-    if (!av) return;
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (window.innerWidth < 900) return; // Desktop only
-      const r = av.getBoundingClientRect();
-      // Only tilt if it's currently on screen
-      if (r.top > window.innerHeight || r.bottom < 0) return;
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.innerWidth < 900) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    const xPct = (mouseX / width) - 0.5;
+    const yPct = (mouseY / height) - 0.5;
+    
+    x.set(xPct);
+    y.set(yPct);
+  };
 
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      const rotY = (e.clientX - cx) / 60;
-      const rotX = (cy - e.clientY) / 80;
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
-      av.style.transform = `perspective(800px) rotateY(${Math.max(-8, Math.min(8, rotY))}deg) rotateX(${Math.max(-6, Math.min(6, rotX))}deg)`;
-    };
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
 
-    const handleMouseLeave = () => {
-      av.style.transform = "perspective(800px) rotateY(0deg) rotateX(0deg)";
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-    av.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      av.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } 
+    },
+  };
 
   return (
-    <section id="about" style={{ padding: "8rem 3rem", maxWidth: "1300px", margin: "0 auto" }}>
+    <section id="about" className="py-32 px-6 md:px-12 max-w-[1300px] mx-auto z-10 relative">
       {/* Section Header */}
-      <div className="reveal in" style={{ display: "flex", alignItems: "baseline", gap: "1.5rem", marginBottom: "4rem" }}>
-        <span style={{ fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "3px", color: "#BF4B0A", fontWeight: 600 }}>01</span>
-        <h2 style={{ fontFamily: "var(--font-serif), Georgia, serif", fontWeight: 400, fontSize: "clamp(2.4rem, 5vw, 4rem)", color: "var(--foreground)" }}>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="flex items-baseline gap-6 mb-16"
+      >
+        <span className="text-sm uppercase tracking-[3px] text-[var(--color-primary)] font-bold">01</span>
+        <h2 className="font-serif font-normal text-[clamp(2.4rem,5vw,4rem)] text-[var(--foreground)]">
           The person behind the pixels
         </h2>
-      </div>
+      </motion.div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-20 items-center">
         {/* Left Column Text */}
-        <div>
-          <p
-            className="reveal in"
-            style={{
-              fontFamily: "var(--font-serif), Georgia, serif",
-              fontSize: "clamp(1.4rem, 2.4vw, 1.9rem)",
-              lineHeight: 1.45,
-              marginBottom: "2rem",
-              color: "var(--foreground)",
-            }}
+        <motion.div 
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <motion.p
+            variants={fadeUp}
+            className="font-serif text-[clamp(1.4rem,2.4vw,1.9rem)] leading-[1.45] mb-8 text-[var(--foreground)]"
           >
             “I think in systems — flows, architecture, components — but I never lose sight of the human on the other end of the screen.”
-          </p>
-          <p className="reveal in" style={{ fontSize: "1.05rem", color: "var(--text-muted)", marginBottom: "1.4rem", maxWidth: "560px" }}>
+          </motion.p>
+          <motion.p variants={fadeUp} className="text-[1.05rem] text-[var(--text-muted)] mb-5 max-w-[560px] leading-relaxed">
             4+ years designing end-to-end products across enterprise SaaS, automotive, e-commerce, and government platforms. I&apos;ve led design for role-based enterprise tools, dealer and mobility apps, AI chatbot interfaces — and a government portal used by rural, first-time digital users.
-          </p>
-          <p className="reveal in" style={{ fontSize: "1.05rem", color: "var(--text-muted)", marginBottom: "2.5rem", maxWidth: "560px" }}>
-            Comfortable working solo end-to-end, or embedded with cross-functional and research teams — including a collaboration with the <strong style={{ color: "var(--foreground)" }}>IIT Delhi Design team</strong> on accessibility research for low-literacy users.
-          </p>
+          </motion.p>
+          <motion.p variants={fadeUp} className="text-[1.05rem] text-[var(--text-muted)] mb-10 max-w-[560px] leading-relaxed">
+            Comfortable working solo end-to-end, or embedded with cross-functional and research teams — including a collaboration with the <strong className="text-[var(--foreground)]">IIT Delhi Design team</strong> on accessibility research for low-literacy users.
+          </motion.p>
 
           {/* Stats Counters Grid */}
-          <div
-            className="reveal in"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "1px",
-              backgroundColor: "var(--divider)",
-              border: "1px solid var(--divider)",
-            }}
+          <motion.div
+            variants={fadeUp}
+            className="grid grid-cols-3 gap-[1px] bg-[var(--border)] border border-[var(--border)]"
           >
-            <div style={{ backgroundColor: "var(--spec-bg)", padding: "1.4rem", textAlign: "center" }}>
+            <div className="bg-[var(--background)] p-6 text-center">
               <Counter target={4} suffix="+" />
-              <div style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "1.5px", color: "var(--text-muted)" }}>Years</div>
+              <div className="text-xs uppercase tracking-[1.5px] text-[var(--text-muted)] font-medium mt-1">Years</div>
             </div>
-            <div style={{ backgroundColor: "var(--spec-bg)", padding: "1.4rem", textAlign: "center" }}>
+            <div className="bg-[var(--background)] p-6 text-center">
               <Counter target={10} suffix="+" />
-              <div style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "1.5px", color: "var(--text-muted)" }}>Products shipped</div>
+              <div className="text-xs uppercase tracking-[1.5px] text-[var(--text-muted)] font-medium mt-1">Products</div>
             </div>
-            <div style={{ backgroundColor: "var(--spec-bg)", padding: "1.4rem", textAlign: "center" }}>
+            <div className="bg-[var(--background)] p-6 text-center">
               <Counter target={5} suffix="" />
-              <div style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "1.5px", color: "var(--text-muted)" }}>Domains</div>
+              <div className="text-xs uppercase tracking-[1.5px] text-[var(--text-muted)] font-medium mt-1">Domains</div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Right Column Interactive SVG Avatar */}
-        <div className="reveal in" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center"
+        >
+          <motion.div
             ref={avatarRef}
-            id="avatarTilt"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
             style={{
-              position: "relative",
-              transition: "transform 0.2s ease-out",
-              willChange: "transform",
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d",
+              perspective: 800
             }}
+            className="relative cursor-default"
           >
-            <svg width="340" height="360" viewBox="0 0 340 360" style={{ display: "block" }}>
+            <svg width="340" height="360" viewBox="0 0 340 360" className="block">
               {/* Floor Shadow */}
-              <ellipse cx="170" cy="330" rx="130" ry="16" fill="rgba(22,20,15,0.08)" />
+              <ellipse cx="170" cy="330" rx="130" ry="16" fill="rgba(22,20,15,0.08)" className="dark:fill-white/5" />
 
               {/* Table / Desk */}
-              <rect x="40" y="290" width="260" height="14" rx="7" fill="#16140F" />
-              <rect x="60" y="304" width="12" height="40" rx="4" fill="#16140F" />
-              <rect x="268" y="304" width="12" height="40" rx="4" fill="#16140F" />
+              <rect x="40" y="290" width="260" height="14" rx="7" fill="var(--foreground)" />
+              <rect x="60" y="304" width="12" height="40" rx="4" fill="var(--foreground)" />
+              <rect x="268" y="304" width="12" height="40" rx="4" fill="var(--foreground)" />
 
               {/* Floating body and designer elements */}
               <g style={{ animation: "floatY 4s ease-in-out infinite", transformOrigin: "170px 200px" }}>
@@ -206,18 +217,18 @@ export function About() {
 
               {/* Coffee Cup and rising steam */}
               <g>
-                <rect x="248" y="252" width="26" height="34" rx="4" fill="#F2EEE6" stroke="#16140F" strokeWidth="2.5" />
+                <rect x="248" y="252" width="26" height="34" rx="4" fill="var(--background)" stroke="var(--foreground)" strokeWidth="2.5" />
                 <path d="M 254 268 Q 261 262 268 268" stroke="#BF4B0A" strokeWidth="2.5" fill="none" />
                 {/* Steaming waves */}
-                <path d="M 253 246 Q 258 238 263 246" stroke="rgba(22,20,15,0.4)" strokeWidth="2" fill="none" style={{ animation: "steam 2.4s ease-out infinite" }} />
-                <path d="M 261 246 Q 266 238 271 246" stroke="rgba(22,20,15,0.4)" strokeWidth="2" fill="none" style={{ animation: "steam 2.4s ease-out infinite 0.9s" }} />
+                <path d="M 253 246 Q 258 238 263 246" stroke="var(--text-muted)" strokeWidth="2" fill="none" style={{ animation: "steam 2.4s ease-out infinite" }} />
+                <path d="M 261 246 Q 266 238 271 246" stroke="var(--text-muted)" strokeWidth="2" fill="none" style={{ animation: "steam 2.4s ease-out infinite 0.9s" }} />
               </g>
 
               {/* Floating browser window sketch (left) */}
               <g style={{ animation: "floatY 3.4s ease-in-out infinite 0.6s" }}>
-                <rect x="58" y="150" width="52" height="36" rx="6" fill="#F2EEE6" stroke="#16140F" strokeWidth="2" />
+                <rect x="58" y="150" width="52" height="36" rx="6" fill="var(--background)" stroke="var(--foreground)" strokeWidth="2" />
                 <rect x="66" y="160" width="24" height="4" rx="2" fill="#BF4B0A" />
-                <rect x="66" y="169" width="34" height="4" rx="2" fill="rgba(22,20,15,0.3)" />
+                <rect x="66" y="169" width="34" height="4" rx="2" fill="var(--border)" />
               </g>
 
               {/* Floating green success badge (right) */}
@@ -226,11 +237,11 @@ export function About() {
                 <path d="M 270 150 L 276 156 L 288 143" stroke="#F2EEE6" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </g>
             </svg>
-          </div>
-          <div style={{ textAlign: "center", fontFamily: "var(--font-serif), Georgia, serif", fontStyle: "italic", fontSize: "1rem", color: "#6B665C", marginTop: "0.4rem" }}>
+          </motion.div>
+          <div className="text-center font-serif italic text-base text-[var(--text-muted-dark)] mt-2">
             happiest when the flow finally clicks ☕
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -272,33 +283,11 @@ export function Craft() {
   const getTagStyle = (type: string) => {
     switch (type) {
       case "orange":
-        return {
-          background: "#BF4B0A",
-          color: "#F2EEE6",
-          padding: "12px 28px",
-          borderRadius: "100px",
-          whiteSpace: "nowrap" as const,
-          fontSize: "1rem",
-        };
+        return "bg-[var(--color-primary)] text-[#F2EEE6] border border-[var(--color-primary)]";
       case "olive":
-        return {
-          background: "#A0A83C",
-          color: "#16140F",
-          padding: "12px 28px",
-          borderRadius: "100px",
-          whiteSpace: "nowrap" as const,
-          fontSize: "1rem",
-          fontWeight: 500,
-        };
+        return "bg-[var(--color-secondary)] text-[#16140F] border border-[var(--color-secondary)] font-medium";
       default:
-        return {
-          border: "1.5px solid rgba(242, 238, 230, 0.25)",
-          color: "#F2EEE6",
-          padding: "12px 28px",
-          borderRadius: "100px",
-          whiteSpace: "nowrap" as const,
-          fontSize: "1rem",
-        };
+        return "bg-transparent text-[var(--foreground)] border-[1.5px] border-[var(--border)]";
     }
   };
 
@@ -307,60 +296,72 @@ export function Craft() {
   };
 
   return (
-    <section id="skills" style={{ background: "#16140F", padding: "7rem 0", overflow: "hidden" }}>
+    <section id="skills" className="bg-[var(--background)] py-32 overflow-hidden z-10 relative">
       {/* Craft Header */}
-      <div
-        className="reveal in"
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          gap: "1.5rem",
-          marginBottom: "4rem",
-          padding: "0 3rem",
-          maxWidth: "1300px",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="flex items-baseline gap-6 mb-16 px-6 md:px-12 max-w-[1300px] mx-auto"
       >
-        <span style={{ fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "3px", color: "#A0A83C", fontWeight: 600 }}>04</span>
-        <h2 style={{ fontFamily: "var(--font-serif), Georgia, serif", fontWeight: 400, fontSize: "clamp(2.4rem, 5vw, 4rem)", color: "#F2EEE6" }}>
+        <span className="text-sm uppercase tracking-[3px] text-[var(--color-secondary)] font-bold">04</span>
+        <h2 className="font-serif font-normal text-[clamp(2.4rem,5vw,4rem)] text-[var(--foreground)]">
           The craft
         </h2>
-      </div>
+      </motion.div>
 
       {/* Reversing tags marquees */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "1.6rem" }}>
+      <div className="flex flex-col gap-6">
         {/* Row 1: Left */}
-        <div style={{ overflow: "hidden" }}>
-          <div style={{ display: "flex", gap: "1rem", width: "max-content", animation: "marqueeLeft 30s linear infinite" }}>
+        <div className="overflow-hidden">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="flex gap-4 w-max animate-[marqueeLeft_30s_linear_infinite]"
+          >
             {loopList(row1Tags).map((tag, idx) => (
-              <span key={idx} style={getTagStyle(tag.type)}>
+              <span key={idx} className={`px-7 py-3 rounded-full whitespace-nowrap text-base transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] ${getTagStyle(tag.type)}`}>
                 {tag.name}
               </span>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Row 2: Right */}
-        <div style={{ overflow: "hidden" }}>
-          <div style={{ display: "flex", gap: "1rem", width: "max-content", animation: "marqueeRight 26s linear infinite" }}>
+        <div className="overflow-hidden">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.1 }}
+            className="flex gap-4 w-max animate-[marqueeRight_26s_linear_infinite]"
+          >
             {loopList(row2Tags).map((tag, idx) => (
-              <span key={idx} style={getTagStyle(tag.type)}>
+              <span key={idx} className={`px-7 py-3 rounded-full whitespace-nowrap text-base transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] ${getTagStyle(tag.type)}`}>
                 {tag.name}
               </span>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Row 3: Left */}
-        <div style={{ overflow: "hidden" }}>
-          <div style={{ display: "flex", gap: "1rem", width: "max-content", animation: "marqueeLeft 24s linear infinite" }}>
+        <div className="overflow-hidden">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="flex gap-4 w-max animate-[marqueeLeft_24s_linear_infinite]"
+          >
             {loopList(row3Tags).map((tag, idx) => (
-              <span key={idx} style={getTagStyle(tag.type)}>
+              <span key={idx} className={`px-7 py-3 rounded-full whitespace-nowrap text-base transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] ${getTagStyle(tag.type)}`}>
                 {tag.name}
               </span>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

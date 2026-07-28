@@ -6,13 +6,13 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const sayHelloRef = useRef<HTMLAnchorElement>(null);
 
   // Initialize theme from HTML element attribute on mount
   useEffect(() => {
     const active = document.documentElement.getAttribute("data-theme") as "light" | "dark";
-    setTheme(active || "light");
+    setTheme(active || "dark");
   }, []);
 
   const toggleTheme = () => {

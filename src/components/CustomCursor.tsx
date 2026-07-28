@@ -11,11 +11,11 @@ export default function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 30, stiffness: 220, mass: 0.6 };
+  // High-end precision physics (snappy but buttery)
+  const springConfig = { damping: 30, stiffness: 400, mass: 0.5 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
-  // Set mounted state in an independent effect to avoid synchronous cascading renders
   useEffect(() => {
     const handle = setTimeout(() => {
       setMounted(true);
@@ -32,13 +32,8 @@ export default function CustomCursor() {
       if (!isVisible) setIsVisible(true);
     };
 
-    const handleMouseLeave = () => {
-      setIsVisible(false);
-    };
-
-    const handleMouseEnter = () => {
-      setIsVisible(true);
-    };
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -47,6 +42,7 @@ export default function CustomCursor() {
         target.tagName === "BUTTON" ||
         target.closest("a") ||
         target.closest("button") ||
+        target.closest(".work-row") ||
         target.classList.contains("cursor-pointer");
 
       setIsHovered(!!isInteractive);
@@ -69,37 +65,35 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Outer ring cursor */}
+      {/* Outer ring cursor - Refined and sophisticated */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border pointer-events-none z-50 mix-blend-difference hidden md:block"
+        className="fixed top-0 left-0 rounded-full border pointer-events-none z-50 hidden md:flex items-center justify-center mix-blend-difference"
         style={{
+          width: "36px",
+          height: "36px",
           x: cursorXSpring,
           y: cursorYSpring,
           translateX: "-50%",
           translateY: "-50%",
+          borderColor: "var(--foreground)",
+          borderWidth: "1.5px",
         }}
         animate={{
           scale: isHovered ? 1.6 : 1,
-          backgroundColor: isHovered ? "rgba(200, 90, 23, 0.15)" : "rgba(255, 255, 255, 0)",
-          borderColor: isHovered ? "rgba(200, 90, 23, 0.8)" : "rgba(255, 255, 255, 0.6)",
+          backgroundColor: isHovered ? "var(--foreground)" : "transparent",
           opacity: isVisible ? 1 : 0,
         }}
-        transition={{ type: "spring", stiffness: 350, damping: 28 }}
-      />
-      {/* Inner dot cursor */}
-      <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-white pointer-events-none z-50 mix-blend-difference hidden md:block"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-        animate={{
-          scale: isHovered ? 0.5 : 1,
-          opacity: isVisible ? 1 : 0,
-        }}
-      />
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      >
+        {/* Subtle dot inside the ring that disappears on hover */}
+        <motion.div 
+          className="w-1.5 h-1.5 rounded-full bg-[var(--foreground)]"
+          animate={{
+            scale: isHovered ? 0 : 1,
+            opacity: isHovered ? 0 : 1,
+          }}
+        />
+      </motion.div>
     </>
   );
 }

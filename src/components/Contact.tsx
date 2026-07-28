@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 const witLines = [
   "Designed in Figma, rebuilt in code, powered by chai ☕",
@@ -12,71 +13,27 @@ const witLines = [
 
 export default function Contact() {
   const [witIdx, setWitIdx] = useState(0);
-  const [witOpacity, setWitOpacity] = useState(1);
   const [hoveredBtn, setHoveredBtn] = useState<string | null>(null);
 
-  const emailRef = useRef<HTMLAnchorElement>(null);
-  const linkedinRef = useRef<HTMLAnchorElement>(null);
-  const phoneRef = useRef<HTMLAnchorElement>(null);
-
-  // Magnetic button triggers
-  useEffect(() => {
-    const attachMagnetic = (el: HTMLAnchorElement | null) => {
-      if (!el) return;
-
-      const handleMouseMove = (e: MouseEvent) => {
-        if (window.innerWidth < 900) return;
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - r.left - r.width / 2;
-        const y = e.clientY - r.top - r.height / 2;
-        el.style.transform = `translate(${x * 0.22}px, ${y * 0.22}px)`;
-      };
-
-      const handleMouseLeave = () => {
-        el.style.transform = "translate(0, 0)";
-      };
-
-      el.addEventListener("mousemove", handleMouseMove);
-      el.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        el.removeEventListener("mousemove", handleMouseMove);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    };
-
-    const cleanEmail = attachMagnetic(emailRef.current);
-    const cleanLinkedin = attachMagnetic(linkedinRef.current);
-    const cleanPhone = attachMagnetic(phoneRef.current);
-
-    return () => {
-      if (cleanEmail) cleanEmail();
-      if (cleanLinkedin) cleanLinkedin();
-      if (cleanPhone) cleanPhone();
-    };
-  }, []);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   const handleWitClick = () => {
-    setWitOpacity(0);
-    setTimeout(() => {
-      setWitIdx((prev) => (prev + 1) % witLines.length);
-      setWitOpacity(1);
-    }, 200);
+    setWitIdx((prev) => (prev + 1) % witLines.length);
   };
 
   const btnStyle = (id: string, isSolid = false) => {
     const isHovered = hoveredBtn === id;
     if (isSolid) {
       return {
-        backgroundColor: isHovered ? "#BF4B0A" : "var(--foreground)",
+        backgroundColor: isHovered ? "var(--color-primary)" : "var(--foreground)",
         color: "var(--background)",
         padding: "18px 42px",
         borderRadius: "100px",
         fontWeight: 600,
         fontSize: "1rem",
         display: "inline-block",
-        transition: "all 0.3s ease",
-        transform: isHovered ? "translateY(-3px)" : "translateY(0)",
+        transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
       };
     } else {
       return {
@@ -88,82 +45,117 @@ export default function Contact() {
         fontWeight: 600,
         fontSize: "1rem",
         display: "inline-block",
-        transition: "all 0.3s ease",
+        transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
       };
     }
   };
 
-  return (
-    <section id="contact" style={{ padding: "9rem 3rem 3rem", textAlign: "center", position: "relative", overflow: "hidden" }}>
-      {/* Decorative top boundary line */}
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", backgroundColor: "var(--divider)" }} />
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 },
+    },
+  };
 
-      <div className="reveal in">
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } 
+    },
+  };
+
+  return (
+    <section id="contact" className="py-36 px-6 md:px-12 text-center relative overflow-hidden bg-[var(--background)] z-10">
+      {/* Decorative top boundary line */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-[var(--border)]" />
+
+      <motion.div
+        ref={containerRef}
+        variants={staggerContainer}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+      >
         {/* Step subtitle */}
-        <div style={{ fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "3px", color: "#BF4B0A", fontWeight: 600, marginBottom: "1.5rem" }}>
+        <motion.div 
+          variants={fadeUp}
+          className="text-sm uppercase tracking-[3px] text-[var(--color-primary)] font-bold mb-6"
+        >
           05 · Say hello
-        </div>
+        </motion.div>
 
         {/* Head title */}
-        <h2 style={{ fontFamily: "var(--font-serif), Georgia, serif", fontWeight: 400, fontSize: "clamp(3rem, 8vw, 7rem)", lineHeight: 1.05, marginBottom: "2.5rem", color: "var(--foreground)" }}>
+        <motion.h2 
+          variants={fadeUp}
+          className="font-serif font-normal text-[clamp(3rem,8vw,7rem)] leading-[1.05] mb-12 text-[var(--foreground)]"
+        >
           Got a messy workflow?<br />
-          <em className="not-italic" style={{ color: "#BF4B0A" }}>I&apos;d love to untangle it.</em>
-        </h2>
+          <em className="not-italic text-[var(--color-primary)]">I&apos;d love to untangle it.</em>
+        </motion.h2>
 
         {/* Action button cards row */}
-        <div style={{ display: "flex", gap: "1.2rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "4rem" }}>
-          <a
-            ref={emailRef}
+        <motion.div 
+          variants={fadeUp}
+          className="flex gap-5 justify-center flex-wrap mb-24"
+        >
+          <motion.a
             href="mailto:nehas.designs26@gmail.com"
             style={btnStyle("email", true)}
             onMouseEnter={() => setHoveredBtn("email")}
             onMouseLeave={() => setHoveredBtn(null)}
+            whileHover={{ scale: 1.05, y: -4, boxShadow: "0 20px 40px rgba(191,75,10,0.25)" }}
+            whileTap={{ scale: 0.95 }}
           >
             nehas.designs26@gmail.com
-          </a>
-          <a
-            ref={linkedinRef}
+          </motion.a>
+          <motion.a
             href="https://linkedin.com/in/neha-sharma-ns15021997/"
             target="_blank"
             rel="noopener noreferrer"
             style={btnStyle("linkedin")}
             onMouseEnter={() => setHoveredBtn("linkedin")}
             onMouseLeave={() => setHoveredBtn(null)}
+            whileHover={{ scale: 1.05, y: -4 }}
+            whileTap={{ scale: 0.95 }}
           >
             LinkedIn ↗
-          </a>
-          <a
-            ref={phoneRef}
+          </motion.a>
+          <motion.a
             href="tel:+919799718755"
             style={btnStyle("phone")}
             onMouseEnter={() => setHoveredBtn("phone")}
             onMouseLeave={() => setHoveredBtn(null)}
+            whileHover={{ scale: 1.05, y: -4 }}
+            whileTap={{ scale: 0.95 }}
           >
             +91 97997 18755
-          </a>
-        </div>
-      </div>
+          </motion.a>
+        </motion.div>
+      </motion.div>
 
       {/* Footer details row */}
-      <div style={{ borderTop: "1px solid var(--border)", paddingTop: "2rem", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", fontSize: "0.85rem", color: "var(--text-muted)" }}>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.5 }}
+        className="border-t border-[var(--border)] pt-8 flex justify-between flex-wrap gap-4 text-[0.85rem] text-[var(--text-muted)]"
+      >
         <span>© 2026 Neha Sharma · Gurugram, India</span>
-        <span
-          id="footerWit"
+        <motion.span
           onClick={handleWitClick}
-          style={{
-            cursor: "pointer",
-            fontStyle: "italic",
-            fontFamily: "var(--font-serif), Georgia, serif",
-            fontSize: "1rem",
-            opacity: witOpacity,
-            transition: "opacity 0.2s ease",
-          }}
+          key={witIdx}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="cursor-pointer font-serif italic text-base select-none"
           title="click me"
         >
           {witLines[witIdx]}
-        </span>
+        </motion.span>
         <span>B.Com, Rajasthan University · Designer by obsession</span>
-      </div>
+      </motion.div>
     </section>
   );
 }
