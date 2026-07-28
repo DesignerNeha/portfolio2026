@@ -27,7 +27,7 @@ export default function Experience() {
     backgroundColor: hoveredCard === id ? "rgba(255,255,255,0.03)" : "transparent",
   });
 
-  const entryVariants = {
+  const entryVariants: any = {
     hidden: { opacity: 0, y: 50 },
     visible: { 
       opacity: 1, 

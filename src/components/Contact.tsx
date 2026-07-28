@@ -58,7 +58,7 @@ export default function Contact() {
     },
   };
 
-  const fadeUp = {
+  const fadeUp: any = {
     hidden: { opacity: 0, y: 40 },
     visible: { 
       opacity: 1, 

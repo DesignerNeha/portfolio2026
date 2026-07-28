@@ -93,7 +93,7 @@ export default function Hero() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: any = {
     hidden: { opacity: 0, y: 60, scale: 0.95, rotateX: 20 },
     visible: { 
       opacity: 1, 

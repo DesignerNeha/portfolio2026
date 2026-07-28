@@ -37,12 +37,12 @@ interface CaseStudyEnriched {
   loginFeatures?: { title: string; desc: string; }[];
   businessObjectiveQuestion: string;
   businessMetrics: { value: string; label: string; desc: string }[];
-  processTitle1: string;
-  processDesc1: string;
-  processTitle2: string;
-  processDesc2: string;
-  processTitle3: string;
-  processDesc3: string;
+  processTitle1?: string;
+  processDesc1?: string;
+  processTitle2?: string;
+  processDesc2?: string;
+  processTitle3?: string;
+  processDesc3?: string;
   researchSectionTitle?: string;
   researchDescription?: string;
   researchItems?: { title: string; desc: string }[];

@@ -80,8 +80,8 @@ export function About() {
     },
   };
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
+  const fadeUp: any = {
+    hidden: { opacity: 0, y: 50 },
     visible: { 
       opacity: 1, 
       y: 0, 
