@@ -71,6 +71,8 @@ interface CaseStudyEnriched {
   challengesText?: string;
   reflectionText?: string;
   outcomeBullets?: string[];
+  wireframesTitle?: string;
+  wireframesDescription?: string;
   wireframesImage?: string | string[];
   outcomeMetrics: { value: string; label: string }[];
   outcomeQuote: string;
@@ -484,11 +486,13 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     ],
     
     // UI
+    wireframesTitle: "Low-Fidelity Wireframes",
+    wireframesDescription: "Early explorations of the service-first navigation and linear task flows.",
     wireframesImage: ["/DSCWireframe1.png", "/DSCWireframe2.png"],
     finalUiImages: [
-      { src: "placeholder", heading: "Homepage / Service Selection Screen" },
-      { src: "placeholder", heading: "Bill Payment Flow" },
-      { src: "placeholder", heading: "Form Submission Flow" }
+      { src: "/DSP_Home.png", heading: "Homepage / Service Selection Screen" },
+      { src: "/DSPBillPayment.png", heading: "Bill Payment Flow" },
+      { src: "/DSP_Wallet.png", heading: "Form Submission Flow" }
     ],
     finalUiTitle: "Designing for Constraints",
     finalUiDescription: "This section shows how sunlight visibility specifically shaped color and type choices — balancing simplicity for lower digital literacy users without making the portal feel limited.",
@@ -939,8 +943,7 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
                 gap: "8px",
               }}
             >
-              ← <span className="hidden sm:inline">Prev: {study.prevCaseName}</span>
-              <span className="sm:hidden">Prev</span>
+              ← Previous Project
             </Link>
           )}
           <Link
@@ -954,8 +957,7 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
               gap: "8px",
             }}
           >
-            <span className="hidden sm:inline">Next: {study.nextCaseName}</span>
-            <span className="sm:hidden">Next</span> →
+            Next Project →
           </Link>
         </div>
       </nav>
@@ -1487,6 +1489,48 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
           </section>
         )}
 
+        {/* Wireframes Section */}
+        {study.wireframesImage && (
+          <section className="w-full px-4 md:px-8 xl:px-12 pb-20">
+            <div className="w-full max-w-[1100px] mx-auto">
+              <div className="reveal w-full flex flex-col items-center mb-16">
+                <div className="flex justify-center items-center gap-4">
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">08</span>
+                  <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                    {study.wireframesTitle || "Wireframes"}
+                  </h2>
+                </div>
+                {study.wireframesDescription && (
+                  <div className="w-full flex justify-center mt-6">
+                    <p className="text-center text-[var(--text-muted)] max-w-[800px] text-lg">
+                      {study.wireframesDescription}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col gap-16">
+                {study.wireframesImage === 'placeholder' ? (
+                  <div className="w-full p-20 border-2 border-dashed border-[var(--border)] rounded-3xl flex items-center justify-center mb-16 bg-[var(--section-bg-alt)]">
+                     <p className="text-[var(--text-muted)] font-mono text-xl tracking-widest">[IMAGE PLACEHOLDER: Low-fidelity wireframes]</p>
+                  </div>
+                ) : Array.isArray(study.wireframesImage) ? (
+                  <div className={`grid grid-cols-1 ${study.wireframesImage.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-8 lg:gap-12 mb-16`}>
+                     {study.wireframesImage.map((src, idx) => (
+                        <div key={idx} className="reveal relative w-full rounded-2xl overflow-hidden border border-[var(--border)]/30" style={{ backgroundColor: "var(--section-bg-alt)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
+                           <img src={src} alt={`Wireframes ${idx + 1}`} className="w-full h-auto block" />
+                        </div>
+                     ))}
+                  </div>
+                ) : study.wireframesImage ? (
+                  <div className="reveal relative w-full rounded-2xl overflow-hidden mb-16 border border-[var(--border)]/30" style={{ backgroundColor: "var(--section-bg-alt)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
+                    <img src={study.wireframesImage} alt="Wireframes" className="w-full h-auto block" />
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </section>
+        )}
+
         {(study.finalUiImage || (study.finalUiImages && study.finalUiImages.length > 0)) && (
           <section className="w-full px-4 md:px-8 xl:px-12 pb-20">
             <div className="w-full max-w-[1100px] mx-auto">
@@ -1506,23 +1550,7 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
                 )}
               </div>
               <div className="flex flex-col gap-16">
-                {study.wireframesImage === 'placeholder' ? (
-                  <div className="w-full p-20 border-2 border-dashed border-[var(--border)] rounded-3xl flex items-center justify-center mb-16 bg-[var(--section-bg-alt)]">
-                     <p className="text-[var(--text-muted)] font-mono text-xl tracking-widest">[IMAGE PLACEHOLDER: Low-fidelity wireframes]</p>
-                  </div>
-                ) : Array.isArray(study.wireframesImage) ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mb-16">
-                     {study.wireframesImage.map((src, idx) => (
-                        <div key={idx} className="reveal relative w-full rounded-2xl overflow-hidden border border-[var(--border)]/30" style={{ backgroundColor: "var(--section-bg-alt)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
-                           <img src={src} alt={`Wireframes ${idx + 1}`} className="w-full h-auto block" />
-                        </div>
-                     ))}
-                  </div>
-                ) : study.wireframesImage ? (
-                  <div className="reveal relative w-full rounded-2xl overflow-hidden mb-16 border border-[var(--border)]/30" style={{ backgroundColor: "var(--section-bg-alt)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
-                    <img src={study.wireframesImage} alt="Wireframes" className="w-full h-auto block" />
-                  </div>
-                ) : null}
+                
                 {study.finalUiImage && (
                   <div className="reveal relative w-full rounded-2xl overflow-hidden" style={{ backgroundColor: "var(--section-bg-alt)", boxShadow: "inset 0 0 100px rgba(0,0,0,0.1), 0 30px 60px rgba(0,0,0,0.05)" }}>
                     <img src={study.finalUiImage} alt="Final UI" className="w-full h-auto block" />

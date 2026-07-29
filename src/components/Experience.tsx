@@ -73,7 +73,7 @@ export default function Experience() {
             className="mb-20 relative"
           >
             {/* Active timeline dot indicator */}
-            <div className="absolute -left-[2.5rem] md:-left-[3.5rem] top-2 w-[18px] h-[18px] bg-[var(--color-primary)] rounded-full border-[4px] border-[var(--background)] shadow-[0_0_0_2px_var(--color-primary)] z-10" />
+            <div className="absolute -left-8 md:-left-12 top-2 w-[18px] h-[18px] bg-[var(--color-primary)] rounded-full border-[4px] border-[var(--background)] shadow-[0_0_0_2px_var(--color-primary)] z-10" />
             
             <div className="flex justify-between items-baseline flex-wrap gap-2 mb-4">
               <h3 className="font-serif text-[1.9rem] font-normal">
@@ -121,7 +121,7 @@ export default function Experience() {
             viewport={{ once: true, margin: "-100px" }}
             className="mb-20 relative"
           >
-            <div className="absolute -left-[2.5rem] md:-left-[3.5rem] top-2 w-[18px] h-[18px] bg-[var(--background)] rounded-full border-[2px] border-[var(--color-primary)] z-10" />
+            <div className="absolute -left-8 md:-left-12 top-2 w-[18px] h-[18px] bg-[var(--background)] rounded-full border-[2px] border-[var(--color-primary)] z-10" />
             <div className="flex justify-between items-baseline flex-wrap gap-2 mb-4">
               <h3 className="font-serif text-[1.9rem] font-normal">
                 CSC E-Governance <span className="text-[var(--color-primary)] italic">— UI/UX Designer</span>
@@ -143,7 +143,7 @@ export default function Experience() {
             viewport={{ once: true, margin: "-100px" }}
             className="mb-20 relative"
           >
-            <div className="absolute -left-[2.5rem] md:-left-[3.5rem] top-2 w-[18px] h-[18px] bg-[var(--background)] rounded-full border-[2px] border-[var(--color-primary)] z-10" />
+            <div className="absolute -left-8 md:-left-12 top-2 w-[18px] h-[18px] bg-[var(--background)] rounded-full border-[2px] border-[var(--color-primary)] z-10" />
             <div className="flex justify-between items-baseline flex-wrap gap-2 mb-4">
               <h3 className="font-serif text-[1.9rem] font-normal">
                 Softworld India <span className="text-[var(--color-primary)] italic">— UI/UX Designer</span>
@@ -165,7 +165,7 @@ export default function Experience() {
             viewport={{ once: true, margin: "-100px" }}
             className="relative"
           >
-            <div className="absolute -left-[2.5rem] md:-left-[3.5rem] top-2 w-[18px] h-[18px] bg-[var(--background)] rounded-full border-[2px] border-white/40 z-10" />
+            <div className="absolute -left-8 md:-left-12 top-2 w-[18px] h-[18px] bg-[var(--background)] rounded-full border-[2px] border-white/40 z-10" />
             <div className="flex justify-between items-baseline flex-wrap gap-2 mb-4">
               <h3 className="font-serif text-[1.9rem] font-normal">
                 Softrow IT Solutions <span className="text-[var(--color-primary)] italic">— Design Intern</span>

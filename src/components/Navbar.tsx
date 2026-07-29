@@ -178,6 +178,20 @@ export default function Navbar() {
           >
             Craft
           </a>
+          <a
+            href="/NehaSharma_Resume.pdf"
+            target="_blank"
+            className="nav-link"
+            style={{
+              color: "var(--foreground)",
+              fontSize: "0.85rem",
+              fontWeight: 500,
+              textTransform: "uppercase",
+              letterSpacing: "1.5px",
+            }}
+          >
+            Resume
+          </a>
 
           {/* Desktop Theme Toggle Trigger */}
           <button

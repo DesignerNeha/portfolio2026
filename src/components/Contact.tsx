@@ -123,6 +123,18 @@ export default function Contact() {
             LinkedIn ↗
           </motion.a>
           <motion.a
+            href="/NehaSharma_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={btnStyle("resume")}
+            onMouseEnter={() => setHoveredBtn("resume")}
+            onMouseLeave={() => setHoveredBtn(null)}
+            whileHover={{ scale: 1.05, y: -4 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Resume ↗
+          </motion.a>
+          <motion.a
             href="tel:+919799718755"
             style={btnStyle("phone")}
             onMouseEnter={() => setHoveredBtn("phone")}
