@@ -56,6 +56,18 @@ interface CaseStudyEnriched {
   finalUi2Images?: { src: string; heading?: string }[];
   rolesSectionTitle?: string;
   userRoles?: { role: string; desc: string; }[];
+  personas?: {
+    name: string;
+    age: number | string;
+    role: string;
+    businessType: string;
+    photo: string;
+    quote: string;
+    goals: string[];
+    frustrations: string[];
+    behaviors: string[];
+    needs: string[];
+  }[];
   placeholders: {
     hero: string;
     ia: string;
@@ -67,6 +79,7 @@ interface CaseStudyEnriched {
   };
   researchQuote?: string;
   userFlowSteps?: string[];
+  userFlowImage?: string;
   designDecisions?: { title: string; desc: string }[];
   challengesText?: string;
   reflectionText?: string;
@@ -77,6 +90,7 @@ interface CaseStudyEnriched {
   outcomeMetrics: { value: string; label: string }[];
   outcomeQuote: string;
   outcomeQuoteAuthor: string;
+  prototypeUrl?: string;
   prevCaseName?: string;
   prevCaseUrl?: string;
   nextCaseName: string;
@@ -212,8 +226,8 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     ],
     outcomeQuote: "By modularizing prompts, agents, and MCP integrations into a unified chat interface, KOVA transforms conversational AI from a generic chatbot into an active, context-aware developer playground.",
     outcomeQuoteAuthor: "Key Takeaway: Designing Extensible Sandboxes for Agentic Workflows",
-    prevCaseName: "SwilMart Commerce",
-    prevCaseUrl: "swilmart",
+    prevCaseName: "NONA Lifestyle",
+    prevCaseUrl: "nona-lifestyle",
     nextCaseName: "Osprey: FUSO Fleet & HAWK",
     nextCaseUrl: "fuso-hawk",
   },
@@ -229,7 +243,7 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     ],
     numStr: "02/05",
     domain: "Global Field Fix Portal",
-    tags: ["Enterprise SaaS", "RBAC", "Global Automotive", "B2B Portal"],
+    tags: ["Enterprise SaaS", "Global Automotive", "B2B Portal"],
     title: "Osprey: Global Field Fix Portal",
     subtitle: "A highly complex, multi-tiered enterprise portal built to manage and resolve field issues in Mitsubishi vehicles globally through a rigorous role-based approval pipeline.",
     specs: [
@@ -527,8 +541,8 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     // Navigation
     prevCaseName: "PDI Automation Module — My Honda App",
     prevCaseUrl: "honda-booking",
-    nextCaseName: "SwilMart Commerce",
-    nextCaseUrl: "swilmart",
+    nextCaseName: "NONA Lifestyle",
+    nextCaseUrl: "nona-lifestyle",
     placeholders: {
       hero: "Hero Image Placeholder",
       ia: "IA Placeholder",
@@ -540,247 +554,222 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     }
   },
 
-  // Case 5: SwilMart
-  "swilmart": {
-    id: "swilmart",
+  // Case 5: NONA Lifestyle
+  "nona-lifestyle": {
+    id: "nona-lifestyle",
     numStr: "05/05",
-    domain: "B2B + B2C Commerce",
-    tags: ["B2B + B2C", "ERP Integration", "2022–24"],
-    title: "SwilMart Commerce",
-    subtitle: "A dual-mode B2B and B2C commerce platform that integrates bulk wholesale catalog orders and standard retail checkouts with real-time SwilERP warehouse inventory tracking.",
+    domain: "B2B Bulk Commerce",
+    tags: ["B2B Platform", "Bulk Ordering", "Responsive Design"],
+    title: "NONA Lifestyle",
+    subtitle: "A specialized B2B clothing dealership platform empowering retail shop owners to seamlessly place high-volume wholesale orders directly from manufacturers.",
     specs: [
-      { label: "My role", value: "UI/UX Designer" },
-      { label: "Timeline", value: "22 Months" },
-      { label: "Platform", value: "Web Portal & Mobile Apps" },
-      { label: "Integration", value: "SwilERP Warehouse Sync" },
+      { label: "My role", value: "Senior UI/UX Designer" },
+      { label: "Timeline", value: "2023 - 2024" },
+      { label: "Platform", value: "Responsive Web App (Desktop & Mobile)" },
+      { label: "Tools", value: "Figma · FigJam" },
     ],
     gradient: "linear-gradient(135deg, #4C9A8A, #6FBFAE)",
     textColor: "#F2EEE6",
     icon: "◆",
-    overviewP1: "Wholesale distributors needed rapid keyboard table entries to buy in bulk, while retail B2C shoppers required clean image grids and familiar shopping checkouts.",
-    overviewP2: "I designed a dual-mode interface synced with SwilERP inventory databases that toggles between distributor lists and shopper cards, increasing digital wholesale orders by 35%.",
-    problemQuestion: "How do you present bulk price-tier structures and live warehouse counts alongside individual shopping carts without confusing either user base?",
+    heroImage: "/NONA_Banner.png",
+    prototypeUrl: "https://www.figma.com/proto/1uQcL9UfxaNwMaQINRPkPV/Nona-Lifestyle?node-id=123-1192&t=cgGZihr7aPRSqlTl-8&scaling=scale-down-width&content-scaling=fixed&page-id=123%3A1191&starting-point-node-id=123%3A1192&hide-ui=1",
+    overviewP1: "NONA Lifestyle is designed exclusively for retail shop owners and wholesale buyers. Unlike consumer-facing sites, it allows businesses to place high-volume bulk orders directly from the manufacturer.",
+    overviewP2: "As the Senior UI/UX Designer, I led the end-to-end product design across desktop and mobile, solving complex data-entry challenges and establishing a scalable design system optimized for high data density.",
+    problemQuestion: "How do we allow a buyer to select multiple sizes, each with its own distinct bulk quantity, in one seamless product interaction without causing immense cognitive overload?",
     problemCards: [
-      { title: "Distributor Input Speed", desc: "Distributors must order hundreds of product lines daily and find card grids too slow to navigate." },
-      { title: "B2C Purchase Friction", desc: "Retail shoppers need product images and quick-checkout buttons, getting confused by bulk pricing tiers." },
-      { title: "Inventory Uncertainty", desc: "No real-time stock levels sync, resulting in distributors ordering items that are currently out of stock." },
+      { title: "Multi-Size Data Entry", desc: "Retailers need to order across an entire size run simultaneously (e.g., 100 Small, 150 Medium) in a single interaction." },
+      { title: "Real-Time Calculations", desc: "Buyers need instant financial feedback on total units and order price to stay within strict procurement budgets." },
+      { title: "Error Prevention", desc: "Need to enforce Minimum Order Quantities (MOQs) and prevent costly mistakes in bulk shipments before checkout." }
     ],
-    businessObjectiveQuestion: "Build a dual-mode storefront linked to SwilERP databases to streamline wholesale orders and boost retail conversions.",
+    businessObjectiveQuestion: "Simplify bulk ordering and reduce order errors while supporting on-the-go buying for procurement managers on mobile devices.",
     businessMetrics: [
-      { value: "+35%", label: "B2B Digital Orders", desc: "Moving wholesale distributors from offline telephone orders onto the web portal." },
-      { value: "+28%", label: "Search-to-Cart Transition", desc: "Increasing product conversions on the B2C storefront using clean layouts." },
-      { value: "-20%", label: "Inventory Queries", desc: "Reducing daily stock check support inquiries through live database sync flags." },
+      { value: "[X]%", label: "Reduced Order Time", desc: "Streamlining the path from product discovery to checkout." },
+      { value: "[X]%", label: "Improved Accuracy", desc: "Drop in customer support tickets related to incorrect size allocations." },
+      { value: "[X]%", label: "Revenue Growth", desc: "Increase in Average Order Value (AOV) through frictionless grid UI." }
     ],
-    processTitle1: "Information Architecture & User Flow Streamlining",
-    processDesc1: "Took SwilMart's disjointed catalog spreadsheets and reorganized the information architecture into a clear, dual-mode system. Structured custom B2B bulk tables and visual B2C retail cards under a single database, allowing users to toggle flows instantly based on order size.",
-    processTitle2: "Deliberate Wireframing & Logic Validation",
-    processDesc2: "Used high-density wireframe tables to test quick keyboard navigation and variant select grids for wholesale distributors. Validated sorting filter logic and bulk cart additions before building final UI components.",
-    processTitle3: "Prototyping & ERP Integration Verification",
-    processDesc3: "Created interactive prototypes to test real-time SwilERP database sync alert banners. Verified that quantity selectors and warning flags prevented out-of-stock orders, driving digital wholesale orders up by 35%.",
-    finalUiTitle: "Retail Brand Consistency & Shared Components",
-    finalUiDescription: "Translated SwilMart's brand identity guidelines into high-performance web components. Without a pre-existing system library, I created a local B2B/B2C component library from scratch. This shared-code setup governed product cards, checkout fields, and live ERP stock alert banners, providing a unified visual signature whether users shopped in high-density tables or visual grids.",
+    researchSectionTitle: "Discovery & Research",
+    researchDescription: "Initial sessions revealed B2B procurement differs fundamentally from casual consumer shopping. B2B buyers log in with high intent, working off spreadsheets. Quantity-per-size is the most critical metric for their profitability.",
+    researchItems: [
+      { title: "High Intent, Low Patience", desc: "B2B buyers don't window shop; they buy with intent and need extremely fast data entry." },
+      { title: "The Ratio Matters", desc: "A retailer's profitability depends heavily on stocking the correct ratio of sizes based on demographics." },
+      { title: "Broken Legacy Systems", desc: "Competitors rely on clunky interfaces requiring endless page reloads to update pricing." }
+    ],
+    personas: [
+      {
+        name: "Rajesh Kumar",
+        age: 42,
+        role: "Owner & Head of Procurement",
+        businessType: "Metro Garments (Regional Retail Chain)",
+        photo: "/RajeshKumar.png",
+        quote: "I know exactly what sizes my stores need before I even log in. Don't make me click through ten separate menus just to order 100 medium shirts.",
+        goals: [
+          "Restock store inventory rapidly across multiple sizes without endless dropdowns.",
+          "Get instant, accurate bulk pricing totals to stay within procurement budgets.",
+          "Manage large volume orders autonomously without waiting for a sales rep."
+        ],
+        frustrations: [
+          "Ordering via phone leads to miscommunication on size ratios.",
+          "Manual Excel-based order sheets are slow and prone to errors.",
+          "No real-time visibility into stock availability causes fulfillment delays."
+        ],
+        behaviors: [
+          "Runs major inventory restocking cycles every 3 to 4 weeks.",
+          "Delegates data entry but personally reviews and approves the final cart total.",
+          "Places large orders on desktop, but uses mobile to check status on the shop floor."
+        ],
+        needs: [
+          "Quick, tabular size-wise quantity inputs using keyboard navigation.",
+          "Transparent, real-time bulk pricing calculations.",
+          "Clear order history dashboard for fast, 1-click reordering of staple items."
+        ]
+      },
+      {
+        name: "Priya Sharma",
+        age: 34,
+        role: "Boutique Manager",
+        businessType: "Elegance Boutique (Independent Store)",
+        photo: "/PriyaSharma.png",
+        quote: "I need to quickly restock best-sellers while I'm literally standing on the shop floor. I don't have time to sit at a desk.",
+        goals: [
+          "Place smaller, frequent restocking orders directly from her phone.",
+          "Easily discover new seasonal collections curated for boutiques.",
+          "Track order shipments in real-time to manage customer expectations."
+        ],
+        frustrations: [
+          "Desktop-only wholesale platforms are useless when working the shop floor.",
+          "Minimum Order Quantities (MOQs) are often too high for a single store.",
+          "Lack of visual confirmations makes it hard to remember exactly what was ordered."
+        ],
+        behaviors: [
+          "Places smaller, targeted restock orders every 1-2 weeks.",
+          "Highly active on mobile devices during business hours.",
+          "Values visual catalog browsing over pure data-entry spreadsheets."
+        ],
+        needs: [
+          "A mobile-optimized buying experience that doesn't feel cramped.",
+          "Visual summaries of the cart with clear thumbnails.",
+          "Saved preferences and quick-reorder features for staple items."
+        ]
+      }
+    ],
+    userFlowSteps: [
+      "Landing & Secure Login (Gated B2B Pricing)",
+      "Category Browsing (Dense, scannable product grids)",
+      "Product Detail Page (Inventory planning dashboard)",
+      "Size-wise Quantity Selection (Custom bulk-input grid)",
+      "Dynamic Cart (Real-time auto-calculation)",
+      "B2B Checkout & Payment (Support for net terms/POs)"
+    ],
+    userFlowImage: "/nona_lifestyle_user_flow.png",
+    designDecisions: [
+      { title: "The Grid UI Solution", desc: "Each size exists as a row with a dedicated numerical input. Buyers can 'Tab' between fields to rapidly type quantities in seconds." },
+      { title: "Real-Time Price Calculation", desc: "A sticky summary panel dynamically updates total unit count and order price for instant feedback." },
+      { title: "Validation & Error Prevention", desc: "Inline validation enforces MOQs. Warning states guide buyers to correct inputs before adding to cart." },
+      { title: "B2B Design System", desc: "Clean typography (Inter) with tabular lining for numbers, and a high-contrast utilitarian palette." }
+    ],
+    processTitle1: "Mobile Adaptation",
+    processDesc1: "A traditional table layout fails on mobile. I collapsed the table into a stacked, card-based list pattern. Each size became a touch-friendly row with integrated stepper controls optimized for larger tap targets.",
+    processTitle2: "Responsive Pricing Summary",
+    processDesc2: "The pricing summary was anchored as a persistent sticky bottom bar on mobile, ensuring the buyer always had visibility into their total spend regardless of scroll position.",
+    finalUiTitle: "Customer Portal",
+    finalUiDescription: "The buyer-facing platform prioritizes extreme data density and rapid data entry. The responsive grid ensures that regardless of viewport size, buyers can effortlessly construct bulk orders across complex size variations.",
+    finalUiImages: [
+      { src: "/LandingNova.png", heading: "Category Browse" },
+      { src: "/ProductsNova.png", heading: "Product Detail Grid" },
+      { src: "/CartNova.png", heading: "Dynamic Auto-Cart" }
+    ],
+    finalUi2Title: "Admin Portal",
+    finalUi2Description: "The internal dashboard for NONA Lifestyle staff to manage incoming wholesale orders, track fulfillment, and update dynamic pricing tiers across the platform.",
+    finalUi2Images: [
+      { src: "/HomeNona.png", heading: "Admin Dashboard" },
+      { src: "/BuyerNona.png", heading: "Buyer Management" },
+      { src: "/InvoicesNona.png", heading: "Invoice Tracking" }
+    ],
     placeholders: {
-      hero: "Drop the SwilMart catalog mockup here (B2B + B2C dual-mode)",
-      ia: "Drop SwilERP integration schema / inventory flow map here",
-      wire1: "Drop B2B wireframes — distributor quick list tables",
-      wire2: "Drop B2C wireframes — retail grid layout checkout",
-      ui1: "Drop final UI — B2B inventory quick-order panel",
-      ui2: "Drop final UI — B2C responsive catalog grid",
-      ui3: "Drop final UI — volume pricing calculator interface",
+      hero: "Drop the NONA Lifestyle hero mockup here (B2B bulk quantity grid)",
+      ia: "Drop B2B user flow map here",
+      wire1: "Drop wireframes — bulk quantity grid",
+      wire2: "Drop wireframes — mobile stacked card list",
+      ui1: "Drop final UI — desktop product detail page",
+      ui2: "Drop final UI — mobile quantity selector",
+      ui3: "Drop final UI — cart and auto-calculation view",
     },
     outcomeMetrics: [
-      { value: "+35%", label: "Increase in digital orders submitted directly by B2B wholesale distributors." },
-      { value: "+28%", label: "Catalog search-to-cart conversions on retail B2C storefronts." },
-      { value: "-20%", label: "Reduction in daily support inquiries regarding catalog stock availability." },
+      { value: "[X]%", label: "Increase in Average Order Value (AOV)." },
+      { value: "[X]%", label: "Drop in support tickets for incorrect size allocations." },
+      { value: "[X]", label: "Retail businesses onboarded within the first quarter." },
     ],
-    outcomeQuote: "Synchronizing live catalog variant selectors with SwilERP inventory led to a 35% increase in wholesale digital checkout volumes, saving customer support teams from manual stock inquiry logs while boosting B2C retail search conversions by 28%. This experience showed me that complex business structures can be unified under a single codebase by building responsive, dual-mode architectures that respect unique user intentions.",
-    outcomeQuoteAuthor: "Key Takeaway: Dual-Mode Architectures for Unified Commerce",
+    outcomeQuote: "Designing NONA Lifestyle reinforced a critical lesson: Context dictates convention. B2B UX is entirely about empowering the user to process complex data efficiently.",
+    outcomeQuoteAuthor: "Key Takeaway: Designing for B2B Efficiency and Scale",
     prevCaseName: "Digital Seva",
     prevCaseUrl: "seva",
     nextCaseName: "KOVA Health Portal",
     nextCaseUrl: "kova",
   },
 
-  // Case 6: BrainWave AI (Self Learning)
-  "brainwave-ai": {
-    id: "brainwave-ai",
-    numStr: "01/03",
-    domain: "Generative AI Tools",
-    tags: ["Generative AI", "Canvas API", "React"],
-    title: "BrainWave AI Canvas",
-    subtitle: "An infinite canvas interface where natural language prompts generate editable vector diagrams, user journey maps, and modular UI templates in real-time.",
+  // Case 6: BlinkPlay (Self Learning)
+  "blinkplay": {
+    id: "blinkplay",
+    numStr: "01/01",
+    domain: "Short-Form Video Streaming",
+    tags: ["Mobile App", "Short-Form Video", "Binge Economy", "2025"],
+    title: "BlinkPlay - A short form drama platform",
+    subtitle: "A mobile-first vertical drama platform engineered for hyper-engaging 1-2 minute micro-episodes, seamless coin-unlock monetization, and addictive episode transitions.",
     specs: [
-      { label: "My role", value: "Creator & UX Developer" },
-      { label: "Timeline", value: "2 Months" },
-      { label: "Platform", value: "Desktop Web Canvas" },
-      { label: "Tools", value: "Next.js · Canvas API · OpenAI API" },
+      { label: "My role", value: "Lead Product Designer" },
+      { label: "Timeline", value: "2025" },
+      { label: "Platform", value: "iOS & Android (Mobile-First)" },
+      { label: "Tools", value: "Figma · FigJam · ProtoPie" },
     ],
-    gradient: "linear-gradient(135deg, #BF4B0A, #A0A83C)",
+    gradient: "linear-gradient(135deg, #1C1226, #3B1B38)",
     textColor: "#F2EEE6",
-    icon: "🧠",
-    overviewP1: "Traditional wireframing tools are slow, requiring designers to manually construct every node and connection. I wanted to design a canvas that uses generative AI to instantly convert prompts into flows.",
-    overviewP2: "I built BrainWave AI: an infinite canvas interface that translates spoken or written prompts into structured vector nodes and connection flows, using React and the html5 Canvas API.",
-    problemQuestion: "How do you design an intuitive, friction-free canvas where user prompts generate vector diagrams and support real-time user manipulation?",
+    icon: "🎬",
+    overviewP1: "Short-form vertical drama apps are revolutionizing mobile entertainment by breaking full-length narrative series into fast-paced 60-to-90 second cliffhanger episodes. BlinkPlay was conceived to capture this high-intent viewer attention.",
+    overviewP2: "I led the product design of BlinkPlay from initial user research to high-fidelity mobile prototypes, focusing on frictionless vertical swipe interactions, high-retention discovery feeds, and micro-transaction paywall mechanics.",
+    problemQuestion: "How do you design a high-frequency video streaming experience that hooks users in the first 3 seconds, eliminates playback friction, and converts viewers into paying subscribers without feeling intrusive?",
     problemCards: [
-      { title: "Prompt Parsing", desc: "Needs to translate complex user descriptions into precise node position coordinates." },
-      { title: "Infinite Canvas", desc: "Requires fast panning, zooming, and group selections with zero lag." },
-      { title: "User Customization", desc: "Needs an intuitive sidebar properties panel to edit color themes and styles." },
+      { title: "Zero-Latency Vertical Feed", desc: "Viewers expect instant auto-playing video streams with zero buffering between consecutive episode swipes." },
+      { title: "Frictionless Coin Unlocking", desc: "Balancing monetization prompts and free-to-watch thresholds without breaking narrative immersion." },
+      { title: "Storyline Discovery & Tracking", desc: "Helping users quickly resume binge-watching across hundreds of multi-episode mini-series." },
     ],
-    businessObjectiveQuestion: "Design a creative sandbox that speeds up visual mapping workflows and showcases local component layout validation.",
+    businessObjectiveQuestion: "Maximize viewer session length, reduce drop-off at paywalled cliffhangers, and drive day-7 retention.",
     businessMetrics: [
-      { value: "2.5x", label: "Brainstorming Acceleration", desc: "Wireframing speeds for designers compared to manual node construction." },
-      { value: "94%", label: "Styling Generation Accuracy", desc: "Validating coordinates and styles against testing prompts specifications." },
-      { value: "<2s", label: "Rendering Latency", desc: "Canvas layout response times under heavy coordinate updates." },
+      { value: "3.8x", label: "Session Duration", desc: "Average daily watch time increase through autoplaying seamless episode queues." },
+      { value: "68%", label: "Cliffhanger Conversion", desc: "Conversion rate from free preview episodes to coin unlock triggers." },
+      { value: "<150ms", label: "Swipe Transition Time", desc: "Perceived loading latency between consecutive vertical drama episodes." },
     ],
-    processTitle1: "Information Architecture & User Flow Streamlining",
-    processDesc1: "Restructured standard prompt chats into a unified side-panel prompt canvas. Mapped user flows that let creators input prompts, preview vector diagrams, and edit shape parameters directly on an infinite coordinate grid.",
-    processTitle2: "Deliberate Wireframing & Logic Validation",
-    processDesc2: "Sketched low-fidelity layout wires to test group node dragging logic and coordinate offsets. Validating coordinate system equations early before visual rendering ensured panning/zooming calculations were solid.",
-    processTitle3: "Prototyping & Generative AI Integration",
-    processDesc3: "Built interactive prototypes connecting user prompts to OpenAI API response logs. Verified node formatting guidelines, confirming diagram formats load correctly on viewport resize.",
-    finalUiTitle: "Corporate Standards & Custom Component Kits",
-    finalUiDescription: "Designed a clean, glassmorphic visual system with a custom local icon and tool library built from scratch, ensuring that panning panels, node cards, and color selectors feel premium and integrated.",
+    processTitle1: "Audience Analysis & Binge Consumption Psychology",
+    processDesc1: "Analyzed short-form consumer behavior across global micro-drama platforms. Identified that user retention peaks when cliffhangers trigger a 1-tap unlock with auto-refill wallet options rather than traditional subscriptions.",
+    processTitle2: "Wireframing Friction-Free Mobile Interactions",
+    processDesc2: "Designed clean, thumb-friendly mobile interfaces prioritizing full-bleed vertical video with gesture-based speed controls, episode playlists, and minimal on-screen UI clutter during playback.",
+    processTitle3: "Interactive Prototyping & Monetization UX",
+    processDesc3: "Built high-fidelity mobile prototypes testing quick-unlock bottom sheets, rewarded video ad flows, and personalized genre recommendations (Romance, Revenge, Thriller, Fantasy).",
+    finalUiTitle: "Immersive Dark Mode Design System",
+    finalUiDescription: "Created an immersive, high-contrast dark aesthetic tailored for mobile screens with vibrant magenta and purple accents, glassmorphic overlay sheets, and crisp typography for subtitles and episode tags.",
+    finalUiImages: [
+      { src: "/HomeScreen.png", heading: "Discovery Feed & Search" },
+      { src: "/EpisodeViewing.png", heading: "Interactive Video Player" },
+      { src: "/EpisodesModal.png", heading: "Episode Queue & Coin Unlock" }
+    ],
     placeholders: {
-      hero: "Drop the BrainWave AI hero mockup here (infinite canvas panel)",
-      ia: "Drop prompt parser and diagram generator engine flow here",
-      wire1: "Drop wireframes — node connection rules",
-      wire2: "Drop wireframes — properties editor sidebar",
-      ui1: "Drop final UI — interactive prompt editor",
-      ui2: "Drop final UI — dynamic diagram rendering view",
-      ui3: "Drop final UI — export formats panel",
+      hero: "Drop BlinkPlay hero mockup here (vertical streaming screen)",
+      ia: "Drop viewer journey & monetization unlock flow here",
+      wire1: "Drop wireframes — vertical drama feed layout",
+      wire2: "Drop wireframes — coin store & episode unlock sheet",
+      ui1: "Drop final UI — immersive video player feed",
+      ui2: "Drop final UI — drama series detail & episode list",
+      ui3: "Drop final UI — coin store & reward center",
     },
     outcomeMetrics: [
-      { value: "2.5x", label: "Speedup in visual flowchart brainstorming." },
-      { value: "94%", label: "Diagram generation layout accuracy." },
-      { value: "<2s", label: "Prompt response-to-canvas rendering cycles." },
+      { value: "3.8x", label: "Increase in average daily viewer session duration." },
+      { value: "68%", label: "Conversion rate on episode unlock paywalls." },
+      { value: "<150ms", label: "Seamless gesture-based episode transition time." },
     ],
-    outcomeQuote: "By connecting LLM prompt parsers to local canvas matrices, BrainWave AI transforms visual mapping from manual pixel-pushing into a fast, prompt-driven design pipeline.",
-    outcomeQuoteAuthor: "Key Takeaway: Designing for Conversational Generative Canvases",
-    prevCaseName: "SwilMart Commerce",
-    prevCaseUrl: "swilmart",
-    nextCaseName: "Synthflow UX Sound Sandbox",
-    nextCaseUrl: "synthflow-ux",
-  },
-
-  // Case 7: Synthflow UX (Self Learning)
-  "synthflow-ux": {
-    id: "synthflow-ux",
-    numStr: "02/03",
-    domain: "Sonic UX Research",
-    tags: ["Web Audio API", "Visual Synthesizers", "Sonic UX"],
-    title: "Synthflow UX Sound Sandbox",
-    subtitle: "An interactive sound-mapping tool that lets product designers connect sound profiles to visual UI transitions and test sonic feedback schemas.",
-    specs: [
-      { label: "My role", value: "UX Researcher & Developer" },
-      { label: "Timeline", value: "3 Months" },
-      { label: "Platform", value: "Responsive Web App" },
-      { label: "Tools", value: "Web Audio API · Tailwind CSS" },
-    ],
-    gradient: "linear-gradient(135deg, #16140F, #4C9A8A)",
-    textColor: "#F2EEE6",
-    icon: "🎵",
-    overviewP1: "Product designers lack tools to easily design sound profiles for micro-interactions, relying on guesswork or static files. I wanted to build an interactive synthesizer tailored for UI sound feedback.",
-    overviewP2: "I built Synthflow UX: an interactive, visual sandbox powered by the Web Audio API that lets designers build customized synth sounds and map them directly to layout triggers.",
-    problemQuestion: "How do you map auditory parameters (oscillator frequency, envelopes, decay) into simple visual controls for designers?",
-    problemCards: [
-      { title: "Frequency Synthesis", desc: "Requires real-time audio wave generation inside browser sandboxes without audio clipping." },
-      { title: "Visual Mappings", desc: "Needs a layout that connects sound files to common UI actions (clicks, drags, scrolls)." },
-      { title: "Export Support", desc: "Needs to output clean JSON/JS code config lines for developer integration." },
-    ],
-    businessObjectiveQuestion: "Create a sensory design tool that speeds up micro-interaction feedback selection cycles.",
-    businessMetrics: [
-      { value: "100%", label: "In-Browser Synthesis", desc: "Client-side browser sound wave synthesis capabilities without backend latency." },
-      { value: "-40%", label: "Sound Mapping Cycle", desc: "Time spent testing and selecting custom sonic signatures for layouts." },
-      { value: "15+", label: "Interaction Triggers", desc: "Pre-configured system triggers for clicks, scrolls, drags, and hover states." },
-    ],
-    processTitle1: "Information Architecture & User Flow Streamlining",
-    processDesc1: "Streamlined complex audio routing parameters under a flat, task-first frequency board. Mapped user paths to let designers select a trigger, adjust oscillator waves, and listen to feedback interactions instantly.",
-    processTitle2: "Deliberate Wireframing & Logic Validation",
-    processDesc2: "Sketched wireframes to test layout patterns and touch-target sizes across desktop and mobile screens. Validating structural logic before applying design system rules helped us confirm that inspectors could easily operate checklist screens in yard glare conditions.",
-    processTitle3: "Prototyping & Audio Integration",
-    processDesc3: "Built audio prototypes to test real-time wave frequencies and gain envelope triggers. Checked frequency values in active viewports to verify that UI audio signals load correctly.",
-    finalUiTitle: "Sonic Aesthetics & Component Kits",
-    finalUiDescription: "Designed a sleek, dark-themed neomorphic interface with a custom component kit built from scratch, rendering frequency cards, wave sliders, and action triggers beautifully.",
-    placeholders: {
-      hero: "Drop the Synthflow sandbox mockup here (sound visualizer)",
-      ia: "Drop audio node routing and trigger mappings flow here",
-      wire1: "Drop wireframes — interactive frequency slider arrays",
-      wire2: "Drop wireframes — interaction event connection tables",
-      ui1: "Drop final UI — synth frequencies designer panel",
-      ui2: "Drop final UI — sound triggers library card grid",
-      ui3: "Drop final UI — export code configs inspector",
-    },
-    outcomeMetrics: [
-      { value: "100%", label: "Audio generation on client-side sandboxes." },
-      { value: "-40%", label: "Time spent selecting and testing sonic UX signals." },
-      { value: "15+", label: "Pre-built micro-interaction trigger points." },
-    ],
-    outcomeQuote: "Synthflow UX makes sonic feedback accessible, enabling product designers to test audio-visual micro-interactions inside a clean Web Audio sandbox.",
-    outcomeQuoteAuthor: "Key Takeaway: Designing Immersive Audio-Visual Sandboxes",
-    prevCaseName: "BrainWave AI Canvas",
-    prevCaseUrl: "brainwave-ai",
-    nextCaseName: "Antigravity IDE Assistant",
-    nextCaseUrl: "antigravity-ide",
-  },
-
-  // Case 8: Antigravity IDE Helper (Self Learning)
-  "antigravity-ide": {
-    id: "antigravity-ide",
-    numStr: "03/03",
-    domain: "Developer Tooling",
-    tags: ["AI Agent Dev", "VS Code API", "Node.js"],
-    title: "Antigravity IDE Helper Agent",
-    subtitle: "A local context-aware IDE assistant that translates spoken design specs into structured component directories and React layouts.",
-    specs: [
-      { label: "My role", value: "Developer & UI Designer" },
-      { label: "Timeline", value: "1 Month" },
-      { label: "Platform", value: "IDE Extension (VS Code)" },
-      { label: "Tools", value: "VS Code Extensions API · Node.js" },
-    ],
-    gradient: "linear-gradient(135deg, #E8B08C, #BF4B0A)",
-    textColor: "#16140F",
-    icon: "🛸",
-    overviewP1: "Designing component layout boilerplates takes time, and jumping between code files and spec documents breaks a developer's focus. I wanted to design a spoken IDE helper that handles this context mapping.",
-    overviewP2: "I designed Antigravity: a VS Code extension helper that processes spoken spec prompts and generates component layouts and stylesheet parameters directly inside local folders.",
-    problemQuestion: "How do you design a clean, floating assistant interface that integrates with VS Code editor columns without interrupting developer workflows?",
-    problemCards: [
-      { title: "Floating Chat UI", desc: "Needs a lightweight panel that fits within VS Code's editor columns." },
-      { title: "Local Context Sync", desc: "Requires scanning local file directories and active component trees with low latency." },
-      { title: "Spoken Prompt Sync", desc: "Needs prompt processing to translate layout commands into structured directory logs." },
-    ],
-    businessObjectiveQuestion: "Reduce time spent creating boilerplate stylesheets and component folder files.",
-    businessMetrics: [
-      { value: "-50%", label: "Boilerplate Setup Time", desc: "Reducing time spent writing boilerplate styling folders and files." },
-      { value: "92%", label: "Layout Prompt Accuracy", desc: "Translating layout specifications into structured files accurately." },
-      { value: "<50ms", label: "Directory Index Speeds", desc: "Scanning local file systems under active developer indexing cycles." },
-    ],
-    processTitle1: "Information Architecture & User Flow Streamlining",
-    processDesc1: "Structured complex directory tree operations into a simple chat sidebar layout. Mapped flow patterns that allow developers to speak design specs, review file alterations, and accept updates with a single click.",
-    processTitle2: "Deliberate Wireframing & Logic Validation",
-    processDesc2: "Sketched low-fidelity wires to test panel resizing and floating editor layout offsets. Checked editor columns layout logic before visual implementation to ensure visual components don't crash on window scaling.",
-    processTitle3: "Prototyping & Extensions Integration",
-    processDesc3: "Built functional extension prototypes using VS Code APIs. Tested Spoken prompts to ensure that component file creation triggers local workspace updates safely.",
-    finalUiTitle: "IDE Aesthetics & Shared Component Kits",
-    finalUiDescription: "Designed a clean, minimalist UI matching dark code theme palettes. Built a modular styling library from scratch to ensure chat logs, folder trees, and prompt inputs feel native to the editor environment.",
-    placeholders: {
-      hero: "Drop the Antigravity assistant mockup here (editor panel)",
-      ia: "Drop spoken prompt processing and code generator flow here",
-      wire1: "Drop wireframes — floating dictation assistant panel",
-      wire2: "Drop wireframes — local workspace permission tables",
-      ui1: "Drop final UI — spoken prompt editor chat view",
-      ui2: "Drop final UI — directory explorer change log panel",
-      ui3: "Drop final UI — token selector configuration sheet",
-    },
-    outcomeMetrics: [
-      { value: "-50%", label: "Time spent creating frontend boilerplate files." },
-      { value: "92%", label: "Directory tree generation accuracy rate." },
-      { value: "<50ms", label: "Local directory scan latency under full indexings." },
-    ],
-    outcomeQuote: "Antigravity bridges design specifications and frontend implementation, using local context parsing to translate spoken design prompts into clean component layouts.",
-    outcomeQuoteAuthor: "Key Takeaway: Spoken Context Engineering for IDE Tooling",
-    prevCaseName: "Synthflow UX Sound Sandbox",
-    prevCaseUrl: "synthflow-ux",
-    nextCaseName: "KOVA Health Portal",
+    outcomeQuote: "Designing BlinkPlay proved that micro-drama UX is all about emotional momentum: when transitions are instant and monetization is frictionless, storytelling becomes truly addictive.",
+    outcomeQuoteAuthor: "Key Takeaway: Designing for the Micro-Drama & Attention Economy",
+    prevCaseName: "NONA Lifestyle",
+    prevCaseUrl: "nona-lifestyle",
+    nextCaseName: "KOVA AI Tool Platform",
     nextCaseUrl: "kova",
   },
 };
@@ -795,13 +784,11 @@ const aliasMap: Record<string, string> = {
   hondaCase: "honda-booking",
   "honda-pdi": "honda-booking",
   sevaCase: "seva",
-  swilCase: "swilmart",
+  nonaCase: "nona-lifestyle",
   // New ones
   kovaCase: "kova",
   ospreyCase: "fuso-hawk",
-  brainwaveCase: "brainwave-ai",
-  synthflowCase: "synthflow-ux",
-  antigravityCase: "antigravity-ide",
+  blinkplayCase: "blinkplay",
 };
 
 export default function CaseStudyPage({ params }: { params: Promise<{ id: string }> }) {
@@ -854,7 +841,7 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
   }, []);
 
   return (
-    <div style={{ backgroundColor: "var(--background)", color: "var(--foreground)", minHeight: "100vh", position: "relative", fontFamily: "var(--font-sans), sans-serif", overflowX: "hidden", transition: "background-color 0.2s, color 0.2s" }}>
+    <div className="pb-28 sm:pb-16" style={{ backgroundColor: "var(--background)", color: "var(--foreground)", minHeight: "100vh", position: "relative", fontFamily: "var(--font-sans), sans-serif", overflowX: "hidden", width: "100%", maxWidth: "100vw", transition: "background-color 0.2s, color 0.2s" }}>
       {/* Scroll indicator */}
       <div
         id="progressBar"
@@ -871,104 +858,115 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
 
       {/* Navigation */}
       <nav
+        className="fixed top-0 left-0 right-0 z-[1000] flex justify-between items-center px-4 sm:px-8 md:px-12 py-3.5 md:py-5 transition-colors duration-200"
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1.2rem 3rem",
           backgroundColor: "var(--nav-bg)",
-          backdropFilter: "blur(12px)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
           borderBottom: "1px solid var(--nav-border)",
-          transition: "background-color 0.2s, border-color 0.2s",
         }}
       >
         <Link
           href="/"
-          style={{
-            fontSize: "0.9rem",
-            fontWeight: 600,
-            color: "#BF4B0A",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
+          className="text-[0.85rem] sm:text-[0.9rem] font-semibold text-[#BF4B0A] inline-flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
-          ← Back to portfolio
+          ← <span className="hidden sm:inline">Back to portfolio</span><span className="sm:hidden">Portfolio</span>
         </Link>
-        <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+        <div className="flex items-center gap-3 sm:gap-6">
           <span
-            style={{
-              fontFamily: "var(--font-serif), Georgia, serif",
-              fontSize: "1.2rem",
-              color: "var(--foreground)",
-            }}
+            className="hidden sm:inline font-serif text-[1.1rem] sm:text-[1.2rem] text-[var(--foreground)]"
           >
             Case Study <span style={{ color: "#BF4B0A" }}>{study.numStr}</span>
           </span>
           {/* Theme Toggle Trigger */}
           <button
             onClick={toggleTheme}
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--foreground)",
-              padding: "6px",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "all 0.3s ease",
-            }}
+            className="p-2 rounded-full text-[var(--foreground)] hover:bg-[var(--card-bg)] transition-colors cursor-pointer"
             aria-label="Toggle visual theme"
           >
             {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
           </button>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
           {study.prevCaseUrl && (
             <Link
               href={`/case-studies/${study.prevCaseUrl}`}
-              style={{
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                color: "#BF4B0A",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
+              className="text-[0.9rem] font-semibold text-[#BF4B0A] inline-flex items-center gap-2 hover:opacity-80 transition-opacity"
             >
               ← Previous Project
             </Link>
           )}
-          <Link
-            href={`/case-studies/${study.nextCaseUrl}`}
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 600,
-              color: "#BF4B0A",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            Next Project →
-          </Link>
+          {study.nextCaseUrl && (
+            <Link
+              href={`/case-studies/${study.nextCaseUrl}`}
+              className="text-[0.9rem] font-semibold text-[#BF4B0A] inline-flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              Next Project →
+            </Link>
+          )}
         </div>
       </nav>
 
+      {/* Floating Mobile Bottom Action Dock (Visible on mobile < 768px) */}
+      <div className="fixed bottom-3 sm:bottom-4 left-0 right-0 z-[1000] px-3 sm:px-6 md:hidden pointer-events-none">
+        <nav
+          aria-label="Case Study Mobile Navigation"
+          className="pointer-events-auto max-w-[420px] mx-auto rounded-full p-1.5 sm:p-2 flex items-center justify-around shadow-[0_16px_40px_rgba(0,0,0,0.35)] border border-[var(--nav-border)]"
+          style={{
+            backgroundColor: "var(--nav-bg)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+          }}
+        >
+          {study.prevCaseUrl ? (
+            <Link
+              href={`/case-studies/${study.prevCaseUrl}`}
+              className="flex items-center gap-1 text-[0.72rem] font-semibold text-[var(--foreground)] px-3 py-2 rounded-full hover:bg-[var(--card-bg)]"
+            >
+              ← Prev
+            </Link>
+          ) : (
+            <span className="text-[0.72rem] text-[var(--text-muted)] opacity-40 px-3 py-2">
+              ← Prev
+            </span>
+          )}
+
+          <Link
+            href="/"
+            className="flex items-center gap-1 text-[0.72rem] font-semibold uppercase tracking-[1px] text-[var(--foreground)] px-3 py-2 rounded-full bg-[var(--card-bg)] hover:text-[#BF4B0A]"
+          >
+            Home
+          </Link>
+
+          {study.prototypeUrl && (
+            <a
+              href={study.prototypeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-[0.72rem] font-semibold text-white px-3 py-2 rounded-full bg-[#BF4B0A] shadow-[0_4px_14px_rgba(191,75,10,0.4)]"
+            >
+              Prototype ↗
+            </a>
+          )}
+
+          {study.nextCaseUrl ? (
+            <Link
+              href={`/case-studies/${study.nextCaseUrl}`}
+              className="flex items-center gap-1 text-[0.72rem] font-semibold text-[var(--foreground)] px-3 py-2 rounded-full hover:bg-[var(--card-bg)]"
+            >
+              Next →
+            </Link>
+          ) : (
+            <span className="text-[0.72rem] text-[var(--text-muted)] opacity-40 px-3 py-2">
+              Next →
+            </span>
+          )}
+        </nav>
+      </div>
+
       {/* CS Hero Header */}
       <header
-        style={{
-          padding: "9rem 3rem 4rem",
-          maxWidth: "1100px",
-          margin: "0 auto",
-        }}
+        className="px-5 sm:px-8 md:px-12 pt-28 sm:pt-36 pb-12 sm:pb-16 max-w-[1100px] mx-auto"
       >
         <div className="reveal" style={{ display: "flex", gap: "0.7rem", flexWrap: "wrap", marginBottom: "1.6rem" }}>
           <span
@@ -1060,6 +1058,26 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
         ) : (
           <ImageSlot placeholder={study.placeholders.hero} height="520px" />
         )}
+
+        {/* View Prototype CTA */}
+        <div className="flex justify-center items-center mt-10">
+          <a
+            href={study.prototypeUrl || "#"}
+            target={study.prototypeUrl ? "_blank" : undefined}
+            rel={study.prototypeUrl ? "noopener noreferrer" : undefined}
+            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#BF4B0A] text-white font-medium text-base tracking-wide transition-all duration-300 hover:bg-[#a63f08] hover:shadow-[0_10px_30px_rgba(191,75,10,0.4)] hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+          >
+            <span>View Prototype</span>
+            <svg
+              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
       </div>
 
       {/* Main content sections */}
@@ -1255,6 +1273,119 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
                         </div>
                      ))}
                   </div>
+               </div>
+             </div>
+          </section>
+        )}
+
+        {/* Detailed B2B User Personas */}
+        {study.personas && study.personas.length > 0 && (
+          <section className="w-full px-4 md:px-8 xl:px-12 py-20" style={{ backgroundColor: "var(--section-bg-alt)", borderTop: "1px solid var(--border)" }}>
+             <div className="reveal relative w-full max-w-[1100px] mx-auto">
+               <div className="reveal w-full flex flex-col justify-center items-center gap-2 mb-16">
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">MEET THE BUYERS</span>
+                  <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                    User Personas
+                  </h2>
+               </div>
+
+               <div className="flex flex-col gap-24">
+                 {study.personas.map((persona, index) => (
+                   <div key={index} className="flex flex-col gap-12">
+                     {/* Persona Card */}
+                     <div className="reveal flex flex-col md:flex-row w-full bg-[var(--glass-bg)] backdrop-blur-md rounded-[20px] border border-[var(--glass-border)] p-8 md:p-12 gap-12 text-[var(--foreground)] shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+                        {/* Left Side: Profile */}
+                        <div className="w-full md:w-[35%] flex flex-col items-center text-center">
+                           <div className="w-40 h-40 rounded-[20px] bg-[var(--section-bg-alt)] border border-[var(--border)] flex items-center justify-center mb-6 shadow-md overflow-hidden">
+                              <img src={persona.photo} alt={persona.name} className="w-full h-full object-cover" />
+                           </div>
+                           <h3 className="text-[1.75rem] font-bold sans-serif mb-1 text-[var(--foreground)]">{persona.name}</h3>
+                           <p className="text-[1rem] font-medium text-[#BF4B0A] mb-1">Age {persona.age} • {persona.role}</p>
+                           <p className="text-[0.95rem] text-[var(--text-muted)] mb-8">{persona.businessType}</p>
+                           <div className="w-full text-left pl-4 border-l-[3px] border-[#BF4B0A] mt-auto">
+                              <p className="text-[0.95rem] md:text-[1.05rem] text-[var(--text-muted)] italic leading-relaxed">
+                                 "{persona.quote}"
+                              </p>
+                           </div>
+                        </div>
+
+                        {/* Right Side: Data Blocks */}
+                        <div className="w-full md:w-[65%] flex flex-col gap-10">
+                           
+                           {/* Goals & Frustrations */}
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                              <div>
+                                 <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 rounded-full bg-[#A0A83C]/20 flex items-center justify-center text-[#A0A83C] font-bold text-sm">✓</div>
+                                    <h4 className="text-[1.15rem] font-bold text-[var(--foreground)] tracking-wide">Goals</h4>
+                                 </div>
+                                 <ul className="list-none flex flex-col gap-3">
+                                    {persona.goals.map((item, idx) => (
+                                       <li key={idx} className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed relative pl-5 before:content-['•'] before:absolute before:left-0 before:text-[#A0A83C]">{item}</li>
+                                    ))}
+                                 </ul>
+                              </div>
+                              <div>
+                                 <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 rounded-full bg-[#E53935]/20 flex items-center justify-center text-[#E53935] font-bold text-sm">!</div>
+                                    <h4 className="text-[1.15rem] font-bold text-[var(--foreground)] tracking-wide">Frustrations</h4>
+                                 </div>
+                                 <ul className="list-none flex flex-col gap-3">
+                                    {persona.frustrations.map((item, idx) => (
+                                       <li key={idx} className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed relative pl-5 before:content-['•'] before:absolute before:left-0 before:text-[#E53935]">{item}</li>
+                                    ))}
+                                 </ul>
+                              </div>
+                           </div>
+
+                           {/* Behaviors & Needs */}
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                              <div>
+                                 <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 rounded-full bg-[#BF4B0A]/20 flex items-center justify-center text-[#BF4B0A] font-bold text-sm">↻</div>
+                                    <h4 className="text-[1.15rem] font-bold text-[var(--foreground)] tracking-wide">Behaviors</h4>
+                                 </div>
+                                 <ul className="list-none flex flex-col gap-3">
+                                    {persona.behaviors.map((item, idx) => (
+                                       <li key={idx} className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed relative pl-5 before:content-['•'] before:absolute before:left-0 before:text-[#BF4B0A]">{item}</li>
+                                    ))}
+                                 </ul>
+                              </div>
+                              <div>
+                                 <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 rounded-full bg-[#6FBFAE]/20 flex items-center justify-center text-[#6FBFAE] font-bold text-sm">✦</div>
+                                    <h4 className="text-[1.15rem] font-bold text-[var(--foreground)] tracking-wide">Needs from Platform</h4>
+                                 </div>
+                                 <ul className="list-none flex flex-col gap-3">
+                                    {persona.needs.map((item, idx) => (
+                                       <li key={idx} className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed relative pl-5 before:content-['•'] before:absolute before:left-0 before:text-[#6FBFAE]">{item}</li>
+                                    ))}
+                                 </ul>
+                              </div>
+                           </div>
+
+                        </div>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
+          </section>
+        )}
+
+        {/* User Flow Map */}
+        {study.userFlowImage && (
+          <section className="w-full px-4 md:px-8 xl:px-12 py-20" style={{ backgroundColor: "var(--background)", borderTop: "1px solid var(--border)" }}>
+             <div className="reveal relative w-full max-w-[1100px] mx-auto">
+               <div className="reveal w-full flex flex-col justify-center items-center gap-2 mb-16">
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">ARCHITECTURE</span>
+                  <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                    User Flow
+                  </h2>
+               </div>
+
+               <div className="reveal relative w-full rounded-[24px] overflow-hidden border-[4px] border-[var(--section-bg-alt)] shadow-[0_30px_60px_rgba(0,0,0,0.2),_0_0_0_1px_var(--border)] bg-[var(--section-bg-alt)]">
+                  <img src={study.userFlowImage} alt="User Flow Architecture" className="w-full h-auto block" />
                </div>
              </div>
           </section>
@@ -1569,6 +1700,63 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
                           
                           {img.src === "placeholder" ? (
                              <div className="w-full h-full flex items-center justify-center bg-[var(--section-bg-alt)]">
+                               <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">
+                                 [IMAGE PLACEHOLDER: {img.heading}]
+                               </p>
+                             </div>
+                          ) : (
+                             <img src={img.src} alt={img.heading || `Final UI Screenshot ${idx + 1}`} className={`w-full h-full block ${study.id === 'honda-booking' ? 'object-contain py-4' : 'object-cover object-top'}`} />
+                          )}
+
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Second Final UI Section (e.g. Admin Portal) */}
+        {(study.finalUi2Image || (study.finalUi2Images && study.finalUi2Images.length > 0)) && (
+          <section className="w-full px-4 md:px-8 xl:px-12 pb-20 bg-[var(--section-bg-alt)] pt-20">
+            <div className="w-full max-w-[1100px] mx-auto">
+              <div className="reveal w-full flex flex-col items-center mb-16">
+                <div className="flex justify-center items-center gap-4">
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">09</span>
+                  <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                    {study.finalUi2Title || "Final UI - Part 2"}
+                  </h2>
+                </div>
+                {study.finalUi2Description && (
+                  <div className="w-full flex justify-center mt-6">
+                    <p className="text-center text-[var(--text-muted)] max-w-[800px] text-lg">
+                      {study.finalUi2Description}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col gap-16">
+                
+                {study.finalUi2Image && (
+                  <div className="reveal relative w-full rounded-2xl overflow-hidden" style={{ backgroundColor: "var(--background)", boxShadow: "0 30px 60px rgba(0,0,0,0.2)" }}>
+                    <img src={study.finalUi2Image} alt="Final UI Part 2" className="w-full h-auto block" />
+                  </div>
+                )}
+                {study.finalUi2Images && study.finalUi2Images.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                    {study.finalUi2Images.map((img, idx) => (
+                      <div key={idx} className="reveal relative w-full flex flex-col gap-4">
+                        {img.heading && (
+                          <h3 className="font-serif text-xl md:text-2xl text-[var(--foreground)] px-2">
+                            {img.heading}
+                          </h3>
+                        )}
+                        <div className={`relative w-full ${study.id === 'honda-booking' ? 'aspect-[3/4]' : 'aspect-[4/3]'} rounded-2xl overflow-hidden border border-[var(--border)]/30`} style={{ backgroundColor: "var(--background)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
+                          
+                          {img.src === "placeholder" ? (
+                             <div className="w-full h-full flex items-center justify-center bg-[var(--background)]">
                                <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">
                                  [IMAGE PLACEHOLDER: {img.heading}]
                                </p>

@@ -108,7 +108,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 pt-32 pb-12 overflow-hidden perspective-1000"
+      className="relative min-h-screen flex flex-col justify-center px-5 sm:px-8 md:px-12 pt-28 sm:pt-36 pb-16 overflow-hidden perspective-1000"
     >
       <motion.div 
         style={{ y: yPos, opacity, scale }}
@@ -118,23 +118,23 @@ export default function Hero() {
         animate="visible"
       >
         {/* Availability Badge Row */}
-        <motion.div variants={itemVariants} className="flex items-center gap-3 mb-8">
-          <span className="w-2 h-2 rounded-full bg-[#4C9A4C] shadow-[0_0_15px_rgba(76,154,76,0.8)] animate-pulse" />
-          <span className="text-[0.85rem] uppercase tracking-[2px] text-[var(--text-muted)] font-medium">
+        <motion.div variants={itemVariants} className="flex items-center gap-3 mb-6 sm:mb-8 flex-wrap">
+          <span className="w-2 h-2 rounded-full bg-[#4C9A4C] shadow-[0_0_15px_rgba(76,154,76,0.8)] animate-pulse shrink-0" />
+          <span className="text-[0.78rem] sm:text-[0.85rem] uppercase tracking-[1.5px] sm:tracking-[2px] text-[var(--text-muted)] font-medium">
             Senior UI/UX Designer · Available for interesting problems
           </span>
         </motion.div>
 
-        {/* Serif Hero Heading - Restored Original Typography Scale but Kinetic */}
+        {/* Serif Hero Heading */}
         <motion.h1 
           variants={itemVariants}
-          className="font-serif font-normal text-[clamp(3rem,7.5vw,6.8rem)] leading-[1.02] tracking-[-1px] text-[var(--foreground)] mb-10"
+          className="font-serif font-normal text-[clamp(2.35rem,6.8vw,6.8rem)] leading-[1.08] tracking-[-0.5px] sm:tracking-[-1px] text-[var(--foreground)] mb-8 sm:mb-10 break-words"
         >
-          I turn <motion.em whileHover={{ scale: 1.05, color: "#E07B3C" }} className="inline-block not-italic text-[var(--color-primary)] transition-colors cursor-default">complex</motion.em> workflows into interfaces people <em className="not-italic border-b-[4px] border-[var(--color-secondary)] relative inline-block group">
+          I turn <motion.em whileHover={{ scale: 1.05, color: "#E07B3C" }} className="inline-block not-italic text-[var(--color-primary)] transition-colors cursor-default">complex</motion.em> workflows into interfaces people <em className="not-italic border-b-[3px] sm:border-b-[4px] border-[var(--color-secondary)] relative inline-block group">
             actually enjoy
             {/* Interactive hover line */}
             <motion.span 
-              className="absolute -bottom-[4px] left-0 w-full h-[4px] bg-[var(--color-primary)] origin-left"
+              className="absolute -bottom-[3px] sm:-bottom-[4px] left-0 w-full h-[3px] sm:h-[4px] bg-[var(--color-primary)] origin-left"
               initial={{ scaleX: 0 }}
               whileHover={{ scaleX: 1 }}
               transition={{ duration: 0.3, ease: "circOut" }}
@@ -143,22 +143,22 @@ export default function Hero() {
         </motion.h1>
 
         {/* Rotating Typewriter Text Row */}
-        <motion.div variants={itemVariants} className="flex items-baseline gap-4 flex-wrap mb-12">
-          <span className="text-[1.15rem] text-[var(--text-muted)]">Right now, designing for</span>
-          <span className="font-serif italic text-[1.6rem] text-[var(--foreground)] border-r-[2px] border-[var(--color-primary)] pr-2 min-w-[280px] animate-[blinkCaret_1.2s_step-end_infinite]">
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-start sm:items-baseline gap-1.5 sm:gap-4 mb-10 sm:mb-12">
+          <span className="text-[1rem] sm:text-[1.15rem] text-[var(--text-muted)] shrink-0">Right now, designing for</span>
+          <span className="font-serif italic text-[1.35rem] sm:text-[1.6rem] text-[var(--foreground)] border-r-[2px] border-[var(--color-primary)] pr-2 min-w-0 sm:min-w-[280px] animate-[blinkCaret_1.2s_step-end_infinite]">
             {text}
           </span>
         </motion.div>
 
         {/* Action Button CTA Row */}
-        <motion.div variants={itemVariants} className="flex gap-5 flex-wrap">
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3.5 sm:gap-5 w-full sm:w-auto">
           {/* Super Interactive Magnetic Button */}
           <motion.a
             href="#work"
             onClick={(e) => scrollToSection(e, "#work")}
-            whileHover={{ scale: 1.08, y: -4, backgroundColor: "var(--color-primary)", color: "#F2EEE6", boxShadow: "0 20px 40px rgba(191,75,10,0.3)" }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-[var(--foreground)] text-[var(--background)] px-9 py-4 rounded-full font-semibold text-[0.95rem] inline-flex items-center gap-2.5 transition-all duration-300"
+            whileHover={{ scale: 1.05, y: -3, backgroundColor: "var(--color-primary)", color: "#F2EEE6", boxShadow: "0 20px 40px rgba(191,75,10,0.3)" }}
+            whileTap={{ scale: 0.96 }}
+            className="bg-[var(--foreground)] text-[var(--background)] px-8 py-3.5 sm:px-9 sm:py-4 rounded-full font-semibold text-[0.9rem] sm:text-[0.95rem] inline-flex items-center justify-center gap-2.5 transition-all duration-300 w-full sm:w-auto"
           >
             See the work <span className="text-xl">↓</span>
           </motion.a>
@@ -166,8 +166,8 @@ export default function Hero() {
           <motion.a
             href="mailto:nehas.designs26@gmail.com"
             whileHover={{ scale: 1.05, backgroundColor: "var(--foreground)", color: "var(--background)" }}
-            whileTap={{ scale: 0.95 }}
-            className="border-[1.5px] border-[var(--foreground)] text-[var(--foreground)] px-9 py-4 rounded-full font-semibold text-[0.95rem] inline-flex items-center transition-all duration-300 backdrop-blur-sm bg-white/5"
+            whileTap={{ scale: 0.96 }}
+            className="border-[1.5px] border-[var(--foreground)] text-[var(--foreground)] px-8 py-3.5 sm:px-9 sm:py-4 rounded-full font-semibold text-[0.9rem] sm:text-[0.95rem] inline-flex items-center justify-center transition-all duration-300 backdrop-blur-sm bg-white/5 w-full sm:w-auto text-center"
           >
             nehas.designs26@gmail.com
           </motion.a>

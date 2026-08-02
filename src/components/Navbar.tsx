@@ -1,11 +1,26 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { motion } from "framer-motion";
+import { User, Briefcase, Layers, Sparkles, Send, Sun, Moon, ArrowUpRight } from "lucide-react";
+
+interface NavItem {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const navItems: NavItem[] = [
+  { id: "about", label: "About", icon: User },
+  { id: "experience", label: "Journey", icon: Briefcase },
+  { id: "work", label: "Work", icon: Layers },
+  { id: "skills", label: "Craft", icon: Sparkles },
+  { id: "contact", label: "Contact", icon: Send },
+];
 
 export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("hero");
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const sayHelloRef = useRef<HTMLAnchorElement>(null);
 
@@ -22,18 +37,35 @@ export default function Navbar() {
     localStorage.setItem("theme", next);
   };
 
+  // Scroll progress & active section detection
   useEffect(() => {
+    const sectionIds = ["hero", "about", "experience", "work", "skills", "contact"];
+
     const handleScroll = () => {
       const st = window.scrollY || document.documentElement.scrollTop;
       const dh = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(dh > 0 ? (st / dh) * 100 : 0);
+
+      // Determine active section based on scroll offset
+      const scrollPosition = st + window.innerHeight * 0.35;
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el) {
+          const top = el.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(sectionIds[i]);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Magnetic button hover effect
+  // Magnetic button hover effect for desktop "Say hello"
   useEffect(() => {
     const btn = sayHelloRef.current;
     if (!btn) return;
@@ -61,7 +93,6 @@ export default function Navbar() {
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    setMobileMenuOpen(false);
     const target = document.querySelector(id);
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
@@ -80,288 +111,171 @@ export default function Navbar() {
           height: "3px",
           backgroundColor: "#BF4B0A",
           width: `${scrollProgress}%`,
-          zIndex: 1001,
+          zIndex: 1002,
           transition: "width 0.1s ease",
         }}
       />
 
+      {/* ========================================================================= */}
+      {/* 1. TOP HEADER (Unified for Desktop & Minimal Header for Mobile)          */}
+      {/* ========================================================================= */}
       <nav
+        className="fixed top-0 left-0 right-0 z-[1000] flex justify-between items-center px-4 sm:px-8 md:px-12 py-3.5 md:py-5.5 transition-colors duration-200"
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "1.4rem 3rem",
           backgroundColor: "var(--nav-bg)",
-          backdropFilter: "blur(12px)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
           borderBottom: "1px solid var(--nav-border)",
-          transition: "background-color 0.2s, border-color 0.2s",
         }}
       >
-        {/* Logo */}
+        {/* Brand Logo */}
         <a
           href="#hero"
           onClick={(e) => scrollToSection(e, "#hero")}
-          style={{
-            fontFamily: "var(--font-serif), Georgia, serif",
-            fontSize: "1.5rem",
-            color: "var(--foreground)",
-            letterSpacing: "0.5px",
-            fontWeight: 400,
-          }}
+          className="font-serif text-[1.4rem] sm:text-[1.6rem] font-normal tracking-[0.5px] text-[var(--foreground)] hover:opacity-80 transition-opacity"
         >
           Neha<span style={{ color: "#BF4B0A" }}>.</span>
         </a>
 
-        {/* Desktop Nav Items */}
-        <div
-          className="hidden md:flex"
-          style={{ gap: "2.2rem", alignItems: "center" }}
-        >
+        {/* Desktop Navigation Links (Visible on >= 768px) */}
+        <div className="hidden md:flex items-center gap-7 lg:gap-9">
           <a
             href="#about"
             onClick={(e) => scrollToSection(e, "#about")}
-            className="nav-link"
-            style={{
-              color: "var(--foreground)",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              textTransform: "uppercase",
-              letterSpacing: "1.5px",
-            }}
+            className={`nav-link text-[0.82rem] font-semibold uppercase tracking-[1.5px] transition-colors ${
+              activeSection === "about" ? "text-[var(--color-primary)]" : "text-[var(--foreground)]"
+            }`}
           >
             About
           </a>
           <a
             href="#experience"
             onClick={(e) => scrollToSection(e, "#experience")}
-            className="nav-link"
-            style={{
-              color: "var(--foreground)",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              textTransform: "uppercase",
-              letterSpacing: "1.5px",
-            }}
+            className={`nav-link text-[0.82rem] font-semibold uppercase tracking-[1.5px] transition-colors ${
+              activeSection === "experience" ? "text-[var(--color-primary)]" : "text-[var(--foreground)]"
+            }`}
           >
             Journey
           </a>
           <a
             href="#work"
             onClick={(e) => scrollToSection(e, "#work")}
-            className="nav-link"
-            style={{
-              color: "var(--foreground)",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              textTransform: "uppercase",
-              letterSpacing: "1.5px",
-            }}
+            className={`nav-link text-[0.82rem] font-semibold uppercase tracking-[1.5px] transition-colors ${
+              activeSection === "work" ? "text-[var(--color-primary)]" : "text-[var(--foreground)]"
+            }`}
           >
             Work
           </a>
           <a
             href="#skills"
             onClick={(e) => scrollToSection(e, "#skills")}
-            className="nav-link"
-            style={{
-              color: "var(--foreground)",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              textTransform: "uppercase",
-              letterSpacing: "1.5px",
-            }}
+            className={`nav-link text-[0.82rem] font-semibold uppercase tracking-[1.5px] transition-colors ${
+              activeSection === "skills" ? "text-[var(--color-primary)]" : "text-[var(--foreground)]"
+            }`}
           >
             Craft
           </a>
           <a
             href="/NehaSharma_Resume.pdf"
             target="_blank"
-            className="nav-link"
-            style={{
-              color: "var(--foreground)",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              textTransform: "uppercase",
-              letterSpacing: "1.5px",
-            }}
+            rel="noopener noreferrer"
+            className="nav-link text-[0.82rem] font-semibold uppercase tracking-[1.5px] text-[var(--foreground)]"
           >
             Resume
           </a>
 
-          {/* Desktop Theme Toggle Trigger */}
+          {/* Desktop Theme Toggle */}
           <button
             onClick={toggleTheme}
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--foreground)",
-              padding: "8px",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "all 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--card-bg)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-            }}
+            className="p-2 rounded-full text-[var(--foreground)] hover:bg-[var(--card-bg)] transition-all cursor-pointer"
             aria-label="Toggle visual theme"
           >
             {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
           </button>
 
+          {/* Desktop Magnetic "Say Hello" Button */}
           <a
             ref={sayHelloRef}
             href="#contact"
             onClick={(e) => scrollToSection(e, "#contact")}
-            className="group"
-            style={{
-              color: "var(--background)",
-              backgroundColor: "var(--foreground)",
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "1.5px",
-              padding: "10px 22px",
-              borderRadius: "100px",
-              display: "inline-block",
-              transition: "all 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#BF4B0A";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--foreground)";
-            }}
+            className="bg-[var(--foreground)] text-[var(--background)] text-[0.8rem] font-semibold uppercase tracking-[1.5px] px-6 py-2.5 rounded-full inline-block transition-all duration-300 hover:bg-[#BF4B0A] hover:text-white"
           >
             Say hello
           </a>
         </div>
 
-        {/* Mobile menu toggle controls */}
-        <div className="flex md:hidden" style={{ alignItems: "center", gap: "0.5rem" }}>
-          {/* Mobile Theme Toggle Trigger */}
+        {/* Mobile Header Quick Actions (Theme Toggle + Resume Chip) */}
+        <div className="flex md:hidden items-center gap-2.5">
+          <a
+            href="/NehaSharma_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[0.72rem] font-semibold uppercase tracking-[1px] px-3 py-1.5 rounded-full border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors inline-flex items-center gap-1"
+          >
+            Resume
+            <ArrowUpRight className="w-3 h-3" />
+          </a>
+
           <button
             onClick={toggleTheme}
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--foreground)",
-              padding: "8px",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "all 0.3s ease",
-            }}
+            className="p-2 rounded-full text-[var(--foreground)] hover:bg-[var(--card-bg)] transition-colors cursor-pointer"
             aria-label="Toggle visual theme"
           >
-            {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-          </button>
-
-          <button
-            className="p-1.5 hover:text-[#BF4B0A] transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle navigation menu"
-            style={{ color: "var(--foreground)" }}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {theme === "light" ? <Moon className="w-4.5 h-4.5" /> : <Sun className="w-4.5 h-4.5" />}
           </button>
         </div>
-
-        {/* Mobile menu overlay list */}
-        {mobileMenuOpen && (
-          <div
-            className="md:hidden absolute top-full left-0 right-0 border-b flex flex-col p-6 space-y-4 shadow-xl z-50 animate-fade-in"
-            style={{
-              backgroundColor: "var(--background)",
-              borderBottomColor: "var(--border)",
-            }}
-          >
-            <a
-              href="#about"
-              onClick={(e) => scrollToSection(e, "#about")}
-              style={{
-                color: "var(--foreground)",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "1.5px",
-              }}
-            >
-              About
-            </a>
-            <a
-              href="#experience"
-              onClick={(e) => scrollToSection(e, "#experience")}
-              style={{
-                color: "var(--foreground)",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "1.5px",
-              }}
-            >
-              Journey
-            </a>
-            <a
-              href="#work"
-              onClick={(e) => scrollToSection(e, "#work")}
-              style={{
-                color: "var(--foreground)",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "1.5px",
-              }}
-            >
-              Work
-            </a>
-            <a
-              href="#skills"
-              onClick={(e) => scrollToSection(e, "#skills")}
-              style={{
-                color: "var(--foreground)",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "1.5px",
-              }}
-            >
-              Craft
-            </a>
-            <a
-              href="#contact"
-              onClick={(e) => scrollToSection(e, "#contact")}
-              style={{
-                color: "var(--background)",
-                backgroundColor: "var(--foreground)",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "1.5px",
-                padding: "12px 24px",
-                borderRadius: "100px",
-                textAlign: "center",
-                display: "block",
-                transition: "all 0.3s ease",
-              }}
-            >
-              Say hello
-            </a>
-          </div>
-        )}
       </nav>
+
+      {/* ========================================================================= */}
+      {/* 2. MOBILE APP-STYLE BOTTOM FLOATING NAVIGATION BAR (Visible on < 768px)   */}
+      {/* ========================================================================= */}
+      <div className="fixed bottom-3 sm:bottom-4 left-0 right-0 z-[1000] px-3 sm:px-6 md:hidden pointer-events-none">
+        <nav
+          aria-label="Mobile App Navigation"
+          className="pointer-events-auto max-w-[420px] mx-auto rounded-full p-1.5 sm:p-2 flex items-center justify-around shadow-[0_16px_40px_rgba(0,0,0,0.35)] border border-[var(--nav-border)] transition-all duration-300"
+          style={{
+            backgroundColor: "var(--nav-bg)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+          }}
+        >
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeSection === item.id;
+
+            return (
+              <motion.a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={(e) => scrollToSection(e, `#${item.id}`)}
+                whileTap={{ scale: 0.88 }}
+                className={`relative flex flex-col items-center justify-center py-1.5 px-3 sm:px-4 rounded-full transition-colors duration-200 ${
+                  isActive
+                    ? "text-[#F2EEE6] font-semibold"
+                    : "text-[var(--text-muted)] hover:text-[var(--foreground)]"
+                }`}
+              >
+                {/* Active Glowing Pill Background */}
+                {isActive && (
+                  <motion.div
+                    layoutId="mobileNavPill"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 bg-[#BF4B0A] rounded-full shadow-[0_4px_14px_rgba(191,75,10,0.4)]"
+                  />
+                )}
+
+                {/* Tab Icon and Label */}
+                <span className="relative z-10 flex flex-col items-center gap-0.5">
+                  <Icon className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                  <span className="text-[0.65rem] sm:text-[0.7rem] tracking-[0.5px] uppercase">
+                    {item.label}
+                  </span>
+                </span>
+              </motion.a>
+            );
+          })}
+        </nav>
+      </div>
     </>
   );
 }

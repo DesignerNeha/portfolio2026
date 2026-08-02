@@ -28,11 +28,11 @@ export default function Contact() {
       return {
         backgroundColor: isHovered ? "var(--color-primary)" : "var(--foreground)",
         color: "var(--background)",
-        padding: "18px 42px",
         borderRadius: "100px",
         fontWeight: 600,
-        fontSize: "1rem",
-        display: "inline-block",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
         transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
       };
     } else {
@@ -40,11 +40,11 @@ export default function Contact() {
         border: "1.5px solid var(--foreground)",
         backgroundColor: isHovered ? "var(--foreground)" : "transparent",
         color: isHovered ? "var(--background)" : "var(--foreground)",
-        padding: "18px 42px",
         borderRadius: "100px",
         fontWeight: 600,
-        fontSize: "1rem",
-        display: "inline-block",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
         transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
       };
     }
@@ -68,7 +68,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-36 px-6 md:px-12 text-center relative overflow-hidden bg-[var(--background)] z-10">
+    <section id="contact" className="pt-20 sm:pt-36 pb-36 sm:pb-36 px-5 sm:px-8 md:px-12 text-center relative overflow-hidden bg-[var(--background)] z-10">
       {/* Decorative top boundary line */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-[var(--border)]" />
 
@@ -81,7 +81,7 @@ export default function Contact() {
         {/* Step subtitle */}
         <motion.div 
           variants={fadeUp}
-          className="text-sm uppercase tracking-[3px] text-[var(--color-primary)] font-bold mb-6"
+          className="text-sm uppercase tracking-[3px] text-[var(--color-primary)] font-bold mb-4 sm:mb-6"
         >
           05 · Say hello
         </motion.div>
@@ -89,7 +89,7 @@ export default function Contact() {
         {/* Head title */}
         <motion.h2 
           variants={fadeUp}
-          className="font-serif font-normal text-[clamp(3rem,8vw,7rem)] leading-[1.05] mb-12 text-[var(--foreground)]"
+          className="font-serif font-normal text-[clamp(2.3rem,6.8vw,6.5rem)] leading-[1.08] mb-10 sm:mb-12 text-[var(--foreground)] break-words"
         >
           Got a messy workflow?<br />
           <em className="not-italic text-[var(--color-primary)]">I&apos;d love to untangle it.</em>
@@ -98,15 +98,16 @@ export default function Contact() {
         {/* Action button cards row */}
         <motion.div 
           variants={fadeUp}
-          className="flex gap-5 justify-center flex-wrap mb-24"
+          className="flex flex-col sm:flex-row gap-3.5 sm:gap-5 justify-center items-center flex-wrap mb-16 sm:mb-24 w-full max-w-xl sm:max-w-none mx-auto"
         >
           <motion.a
             href="mailto:nehas.designs26@gmail.com"
             style={btnStyle("email", true)}
             onMouseEnter={() => setHoveredBtn("email")}
             onMouseLeave={() => setHoveredBtn(null)}
-            whileHover={{ scale: 1.05, y: -4, boxShadow: "0 20px 40px rgba(191,75,10,0.25)" }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.04, y: -3, boxShadow: "0 20px 40px rgba(191,75,10,0.25)" }}
+            whileTap={{ scale: 0.96 }}
+            className="w-full sm:w-auto px-6 py-3.5 sm:px-9 sm:py-4 text-[0.88rem] sm:text-[1rem]"
           >
             nehas.designs26@gmail.com
           </motion.a>
@@ -117,8 +118,9 @@ export default function Contact() {
             style={btnStyle("linkedin")}
             onMouseEnter={() => setHoveredBtn("linkedin")}
             onMouseLeave={() => setHoveredBtn(null)}
-            whileHover={{ scale: 1.05, y: -4 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.04, y: -3 }}
+            whileTap={{ scale: 0.96 }}
+            className="w-full sm:w-auto px-6 py-3.5 sm:px-9 sm:py-4 text-[0.88rem] sm:text-[1rem]"
           >
             LinkedIn ↗
           </motion.a>
@@ -129,8 +131,9 @@ export default function Contact() {
             style={btnStyle("resume")}
             onMouseEnter={() => setHoveredBtn("resume")}
             onMouseLeave={() => setHoveredBtn(null)}
-            whileHover={{ scale: 1.05, y: -4 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.04, y: -3 }}
+            whileTap={{ scale: 0.96 }}
+            className="w-full sm:w-auto px-6 py-3.5 sm:px-9 sm:py-4 text-[0.88rem] sm:text-[1rem]"
           >
             Resume ↗
           </motion.a>
@@ -139,8 +142,9 @@ export default function Contact() {
             style={btnStyle("phone")}
             onMouseEnter={() => setHoveredBtn("phone")}
             onMouseLeave={() => setHoveredBtn(null)}
-            whileHover={{ scale: 1.05, y: -4 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.04, y: -3 }}
+            whileTap={{ scale: 0.96 }}
+            className="w-full sm:w-auto px-6 py-3.5 sm:px-9 sm:py-4 text-[0.88rem] sm:text-[1rem]"
           >
             +91 97997 18755
           </motion.a>
@@ -153,7 +157,7 @@ export default function Contact() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="border-t border-[var(--border)] pt-8 flex justify-between flex-wrap gap-4 text-[0.85rem] text-[var(--text-muted)]"
+        className="border-t border-[var(--border)] pt-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-3.5 sm:gap-4 text-[0.8rem] sm:text-[0.85rem] text-[var(--text-muted)]"
       >
         <span>© 2026 Neha Sharma · Gurugram, India</span>
         <motion.span
@@ -161,7 +165,7 @@ export default function Contact() {
           key={witIdx}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="cursor-pointer font-serif italic text-base select-none"
+          className="cursor-pointer font-serif italic text-sm sm:text-base select-none hover:text-[var(--color-primary)] transition-colors"
           title="click me"
         >
           {witLines[witIdx]}
