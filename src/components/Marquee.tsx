@@ -15,16 +15,17 @@ export default function Marquee() {
   const repeatedDomains = [...domains, ...domains, ...domains, ...domains];
 
   return (
-    <div
-      style={{
-        backgroundColor: "#16140F",
-        padding: "1.1rem 0",
-        overflow: "hidden",
-        transform: "rotate(-1deg) scale(1.02)",
-        borderTop: "3px solid #BF4B0A",
-        borderBottom: "3px solid #BF4B0A",
-      }}
-    >
+    <div className="my-8 sm:my-12 overflow-hidden relative z-10">
+      <div
+        style={{
+          backgroundColor: "#16140F",
+          padding: "1.1rem 0",
+          overflow: "hidden",
+          transform: "rotate(-1deg) scale(1.02)",
+          borderTop: "3px solid #BF4B0A",
+          borderBottom: "3px solid #BF4B0A",
+        }}
+      >
       <div
         style={{
           display: "flex",
@@ -52,5 +53,6 @@ export default function Marquee() {
         ))}
       </div>
     </div>
+  </div>
   );
 }

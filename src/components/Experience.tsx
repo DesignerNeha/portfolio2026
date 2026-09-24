@@ -37,7 +37,7 @@ export default function Experience() {
   };
 
   return (
-    <section id="experience" className="bg-[var(--background)] text-[var(--foreground)] py-20 sm:py-32 px-5 sm:px-8 md:px-12 relative z-10">
+    <section id="experience" className="bg-[var(--background)] text-[var(--foreground)] pt-0 pb-16 sm:pb-24 px-5 sm:px-8 md:px-12 relative z-10">
       <div className="max-w-[1100px] mx-auto" ref={containerRef}>
         {/* Section Header */}
         <motion.div 
@@ -45,9 +45,9 @@ export default function Experience() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="flex items-baseline gap-4 sm:gap-6 mb-14 sm:mb-20"
+          className="flex items-baseline gap-4 sm:gap-6 mb-8 sm:mb-12"
         >
-          <span className="text-sm uppercase tracking-[3px] text-[var(--color-secondary)] font-bold">02</span>
+          <span className="text-sm uppercase tracking-[3px] text-[var(--color-secondary)] font-bold">03</span>
           <h2 className="font-serif font-normal text-[clamp(2.2rem,5vw,4rem)] text-[var(--foreground)]">
             The journey so far
           </h2>

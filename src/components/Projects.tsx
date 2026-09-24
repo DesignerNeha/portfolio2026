@@ -22,28 +22,18 @@ interface ProjectCardData {
 
 const officeProjects: ProjectCardData[] = [
   {
-    id: "kova",
-    num: "01",
-    title: "KOVA AI Tool Platform",
-    caseId: "kovaCase",
-    tags: ["Generative AI", "Agents & MCP", "2026"],
-    gradient: "linear-gradient(135deg, #111111, #222222)",
-    image: "/kova_dashboard_v2.png",
-    description: "Generative AI agent platform utilizing model context protocols to build autonomous workflows.",
-  },
-  {
     id: "fuso-hawk",
-    num: "02",
-    title: "Osprey: FUSO Fleet & HAWK",
+    num: "01",
+    title: "Osprey: FUSO Fleet",
     caseId: "fusoCase",
-    tags: ["Enterprise RBAC", "AI Chatbot UX", "2025"],
+    tags: ["Enterprise RBAC", "Global Automotive", "2026"],
     gradient: "linear-gradient(135deg, #1A1813, #2E1B10)",
     image: "/osprey_dashboard.jpg",
-    description: "Role-based enterprise tool across dealer/service networks with AI chatbot integration in HR Admin Portal.",
+    description: "Role-based enterprise tool across dealer/service networks ensuring global compliance through a secure, sequential approval pipeline.",
   },
   {
     id: "honda-booking",
-    num: "03",
+    num: "02",
     title: "Honda PDI Automation",
     caseId: "hondaCase",
     tags: ["Automotive PDI", "Field Inspection App", "2024–25"],
@@ -54,7 +44,7 @@ const officeProjects: ProjectCardData[] = [
   },
   {
     id: "seva",
-    num: "04",
+    num: "03",
     title: "Digital Seva Portal",
     caseId: "sevaCase",
     tags: ["GovTech", "Accessibility", "IIT Delhi Research"],
@@ -64,13 +54,13 @@ const officeProjects: ProjectCardData[] = [
   },
   {
     id: "nona-lifestyle",
-    num: "05",
+    num: "04",
     title: "NONA Lifestyle",
     caseId: "nonaCase",
-    tags: ["B2B + B2C", "ERP Integration", "2022–24"],
+    tags: ["B2B Platform", "Bulk Ordering", "2023–24"],
     gradient: "linear-gradient(135deg, #11221E, #1F423A)",
     image: "/NONA_Preview.png",
-    description: "Unified commerce platform with product discovery, checkout, order tracking, and real-time ERP inventory integration.",
+    description: "B2B marketplace unifying manufacturers, vendors, and buyers with bulk order management, custom RFQ flows, and live manufacturing milestone tracking.",
   },
 ];
 
@@ -287,7 +277,7 @@ export default function Projects() {
         transition={{ duration: 0.8 }}
         className="flex items-baseline gap-4 sm:gap-6 mb-4"
       >
-        <span className="text-sm uppercase tracking-[3px] text-[var(--color-primary)] font-bold">03</span>
+        <span className="text-sm uppercase tracking-[3px] text-[var(--color-primary)] font-bold">02</span>
         <h2 className="font-serif font-normal text-[clamp(2.2rem,5vw,4rem)] text-[var(--foreground)] tracking-tighter">
           Selected work
         </h2>

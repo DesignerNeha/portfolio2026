@@ -138,7 +138,7 @@ export default function Contact() {
             Resume ↗
           </motion.a>
           <motion.a
-            href="tel:+919799718755"
+            href="tel:+919319830236"
             style={btnStyle("phone")}
             onMouseEnter={() => setHoveredBtn("phone")}
             onMouseLeave={() => setHoveredBtn(null)}
@@ -146,7 +146,7 @@ export default function Contact() {
             whileTap={{ scale: 0.96 }}
             className="w-full sm:w-auto px-6 py-3.5 sm:px-9 sm:py-4 text-[0.88rem] sm:text-[1rem]"
           >
-            +91 97997 18755
+            +91 93198 30236
           </motion.a>
         </motion.div>
       </motion.div>

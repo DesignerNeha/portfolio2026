@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useInView, useAnimation, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 // Interactive Count-Up component
-function Counter({ target, suffix }: { target: number; suffix: string }) {
+function Counter({ target, suffix, decimals = 0 }: { target: number; suffix: string; decimals?: number }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -12,27 +12,30 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
   useEffect(() => {
     if (!isInView) return;
     
-    let cur = 0;
-    let frameId: number;
+    let startTime: number | null = null;
+    const duration = 1200;
 
-    const step = () => {
-      cur += Math.max(1, Math.ceil(target / 30));
-      if (cur >= target) {
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const current = easeProgress * target;
+      
+      setCount(current);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
         setCount(target);
-        return;
       }
-      setCount(cur);
-      frameId = requestAnimationFrame(step);
     };
 
-    frameId = requestAnimationFrame(step);
-
+    const frameId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frameId);
   }, [isInView, target]);
 
   return (
     <div ref={ref} className="font-serif text-[1.8rem] sm:text-[2.4rem] text-[var(--color-primary)]">
-      {count}
+      {decimals > 0 ? count.toFixed(decimals) : Math.round(count)}
       {suffix}
     </div>
   );
@@ -90,58 +93,55 @@ export function About() {
   };
 
   return (
-    <section id="about" className="py-20 sm:py-32 px-5 sm:px-8 md:px-12 max-w-[1300px] mx-auto z-10 relative">
+    <section id="about" className="py-24 sm:py-32 px-5 sm:px-8 md:px-12 max-w-[1200px] mx-auto z-10 relative h-auto">
       {/* Section Header */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8 }}
-        className="flex items-baseline gap-4 sm:gap-6 mb-12 sm:mb-16"
+        className="flex items-baseline gap-4 sm:gap-6 mb-6 sm:mb-8"
       >
         <span className="text-sm uppercase tracking-[3px] text-[var(--color-primary)] font-bold">01</span>
-        <h2 className="font-serif font-normal text-[clamp(2.2rem,5vw,4rem)] text-[var(--foreground)]">
+        <h2 className="font-serif font-normal text-[clamp(1.9rem,4vw,3.2rem)] text-[var(--foreground)]">
           The person behind the pixels
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start justify-items-center max-w-[1080px] mx-auto">
         {/* Left Column Text */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
+          className="space-y-3 sm:space-y-3.5 max-w-[560px] w-full mx-auto flex flex-col justify-start"
         >
           <motion.p
             variants={fadeUp}
-            className="font-serif text-[clamp(1.3rem,2.4vw,1.9rem)] leading-[1.45] mb-6 sm:mb-8 text-[var(--foreground)]"
+            className="font-serif text-[clamp(1rem,1.8vw,1.2rem)] leading-[1.6] text-[var(--foreground)]"
           >
-            “I think in systems — flows, architecture, components — but I never lose sight of the human on the other end of the screen.”
+            "Hi, I'm Neha — a Senior UI/UX Designer who turns messy [enterprise / automotive / GovTech / B2B] workflows into interfaces people actually want to use. <span className="text-[0.85em] text-[var(--text-muted)]">Over 4+ years, I've designed role-based dashboards for automotive giants like Honda and Mitsubishi FUSO, helped build a national digital services portal used by first-time digital users across India, and shaped B2B commerce experiences that handle bulk pricing, custom quotes, and multi-stage manufacturing tracking. I care less about how a screen looks in isolation and more about whether it holds up once real stakeholders, real data, and real edge cases show up. Based in Gurugram, currently exploring hybrid roles where I can keep doing exactly that."</span>
           </motion.p>
-          <motion.p variants={fadeUp} className="text-[0.98rem] sm:text-[1.05rem] text-[var(--text-muted)] mb-5 max-w-[560px] leading-relaxed">
-            4+ years designing end-to-end products across enterprise SaaS, automotive, e-commerce, and government platforms. I&apos;ve led design for role-based enterprise tools, dealer and mobility apps, AI chatbot interfaces — and a government portal used by rural, first-time digital users.
-          </motion.p>
-          <motion.p variants={fadeUp} className="text-[0.98rem] sm:text-[1.05rem] text-[var(--text-muted)] mb-8 sm:mb-10 max-w-[560px] leading-relaxed">
-            Comfortable working solo end-to-end, or embedded with cross-functional and research teams — including a collaboration with the <strong className="text-[var(--foreground)]">IIT Delhi Design team</strong> on accessibility research for low-literacy users.
-          </motion.p>
+
+        
 
           {/* Stats Counters Grid */}
           <motion.div
             variants={fadeUp}
-            className="grid grid-cols-3 gap-[1px] bg-[var(--border)] border border-[var(--border)] rounded-lg overflow-hidden"
+            className="grid grid-cols-3 gap-[1px] bg-[var(--border)] border border-[var(--border)] rounded-lg overflow-hidden mt-3 sm:mt-4"
           >
-            <div className="bg-[var(--background)] p-3.5 sm:p-6 text-center">
-              <Counter target={4} suffix="+" />
-              <div className="text-[0.68rem] sm:text-xs uppercase tracking-[1px] sm:tracking-[1.5px] text-[var(--text-muted)] font-medium mt-1">Years</div>
+            <div className="bg-[var(--background)] p-2.5 sm:p-3.5 text-center">
+              <Counter target={4.5} suffix="+" decimals={1} />
+              <div className="text-[0.65rem] sm:text-xs uppercase tracking-[1px] sm:tracking-[1.5px] text-[var(--text-muted)] font-medium mt-0.5">Years Exp</div>
             </div>
-            <div className="bg-[var(--background)] p-3.5 sm:p-6 text-center">
+            <div className="bg-[var(--background)] p-2.5 sm:p-3.5 text-center">
               <Counter target={10} suffix="+" />
-              <div className="text-[0.68rem] sm:text-xs uppercase tracking-[1px] sm:tracking-[1.5px] text-[var(--text-muted)] font-medium mt-1">Products</div>
+              <div className="text-[0.65rem] sm:text-xs uppercase tracking-[1px] sm:tracking-[1.5px] text-[var(--text-muted)] font-medium mt-0.5">Products</div>
             </div>
-            <div className="bg-[var(--background)] p-3.5 sm:p-6 text-center">
+            <div className="bg-[var(--background)] p-2.5 sm:p-3.5 text-center">
               <Counter target={5} suffix="" />
-              <div className="text-[0.68rem] sm:text-xs uppercase tracking-[1px] sm:tracking-[1.5px] text-[var(--text-muted)] font-medium mt-1">Domains</div>
+              <div className="text-[0.65rem] sm:text-xs uppercase tracking-[1px] sm:tracking-[1.5px] text-[var(--text-muted)] font-medium mt-0.5">Domains</div>
             </div>
           </motion.div>
         </motion.div>
@@ -152,7 +152,7 @@ export function About() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center w-full max-w-[320px] sm:max-w-[340px] mx-auto"
+          className="flex flex-col items-center justify-start w-full max-w-[280px] sm:max-w-[310px] mx-auto lg:pt-0"
         >
           <motion.div
             ref={avatarRef}
@@ -164,9 +164,9 @@ export function About() {
               transformStyle: "preserve-3d",
               perspective: 800
             }}
-            className="relative cursor-default w-full"
+            className="relative cursor-default w-full flex justify-center"
           >
-            <svg width="100%" height="auto" viewBox="0 0 340 360" className="block max-w-[340px] mx-auto">
+            <svg width="100%" height="auto" viewBox="20 65 300 285" className="block w-full max-w-[300px] mx-auto">
               {/* Floor Shadow */}
               <ellipse cx="170" cy="330" rx="130" ry="16" fill="rgba(22,20,15,0.08)" className="dark:fill-white/5" />
 

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Sun, Moon } from "lucide-react";
 import Image from "next/image";
+import RoleSelector from "@/components/case-studies/nona-lifestyle/RoleSelector";
+import MilestoneTracker from "@/components/case-studies/nona-lifestyle/MilestoneTracker";
 
 interface CaseStudyEnriched {
   id: string;
@@ -48,7 +50,7 @@ interface CaseStudyEnriched {
   researchItems?: { title: string; desc: string }[];
   finalUiTitle: string;
   finalUiImage?: string;
-  finalUiImages?: { src: string; heading?: string }[];
+  finalUiImages?: { src: string; heading?: string; desc?: string }[];
   finalUiDescription: string;
   finalUi2Title?: string;
   finalUi2Description?: string;
@@ -164,6 +166,7 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     textColor: "#F2EEE6",
     icon: "🤖",
     heroImage: "/KOVA_Banner.png",
+    prototypeUrl: "https://www.figma.com/proto/heM8fusOkge6VnGMEMpE61/KOVA?node-id=1-1469&t=c7LUo3vQylpmjuc8-8&scaling=contain&content-scaling=responsive&page-id=0%3A1&starting-point-node-id=1%3A2729&hide-ui=1",
     overviewP1: "KOVA AI is a next-generation chat portal designed for power-users who need absolute control over their AI workflows. Built during an intensive 4-day design sprint, KOVA utilizes a refined, highly accessible neomorphic design system to make complex, abstract developer features feel tangible, responsive, and beautifully intuitive in both light and dark modes.",
     overviewP2: "",
     problemQuestion: "The original KOVA portal was functional but suffered from severe technical debt and \"feature soup.\" As the system evolved to support advanced capabilities like custom AI Agents, Prompt Presets, and complex MCP integrations, the legacy UI broke under the weight of its own features.\n\nCollaborating with Claude AI to perform a rigorous heuristic evaluation and competitive analysis of the legacy platform, we mapped user feedback to isolate exactly where the interface was failing.",
@@ -236,10 +239,26 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
   "fuso-hawk": {
     id: "fuso-hawk",
     finalUiImages: [
-      { src: "/CodeGeneration_Orprey.jpg", heading: "Code Generation Module" },
-      { src: "/CreateFieldFix_Osprey.png", heading: "Field fix creation" },
-      { src: "/FieldFixList_Osprey.jpg", heading: "Field Fix List" },
-      { src: "/FieldFixDetail_Osprey.png", heading: "Field Fix Detail" }
+      { 
+        src: "/CodeGeneration_Orprey.jpg", 
+        heading: "Code Generation Module",
+        desc: "This interface allows Admin Users to generate and map diagnostic codes. To handle the immense density of vehicle data without overwhelming the user, the layout uses a progressive disclosure model—keeping complex parameters hidden until specifically requested."
+      },
+      { 
+        src: "/CreateFieldFix_Osprey.png", 
+        heading: "Field fix creation",
+        desc: "The QM Creator uses this wizard to initiate a fix. We broke a massive 50-field technical form into bite-sized, logical steps with auto-saving, dramatically reducing form abandonment and cognitive load."
+      },
+      { 
+        src: "/FieldFixList_Osprey.jpg", 
+        heading: "Field Fix List",
+        desc: "The global tracking dashboard for CSHQ and RC Users. It utilizes a powerful multi-filtering data grid with status badges, allowing stakeholders to slice by region, vehicle model, and compliance state at a glance."
+      },
+      { 
+        src: "/FieldFixDetail_Osprey.png", 
+        heading: "Field Fix Detail",
+        desc: "The Field Fix Detail view is where the highest-context handoffs happen. A QM Approver reviewing technical validity needs the full history at a glance, so we designed a timeline-based view, persistent status badges, and a side-by-side document panel for instant verification."
+      }
     ],
     numStr: "02/05",
     domain: "Global Field Fix Portal",
@@ -248,7 +267,7 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     subtitle: "A highly complex, multi-tiered enterprise portal built to manage and resolve field issues in Mitsubishi vehicles globally through a rigorous role-based approval pipeline.",
     specs: [
       { label: "My role", value: "Senior UI/UX Designer" },
-      { label: "Timeline", value: "2025 – Present" },
+      { label: "Timeline", value: "2026 – Present" },
       { label: "Platform", value: "Responsive Web App (SaaS)" },
       { label: "Tools", value: "Figma · FigJam · Figma Make" },
     ],
@@ -287,6 +306,11 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
       { role: "GD User", desc: "Accesses the localized, country-level documents uploaded by RC and physically conducts the field fix on the vehicle." },
       { role: "Admin User", desc: "Has overarching control to manage master modules, configure system settings, and assign user roles." },
     ],
+    designDecisions: [
+      { title: "Compliance Redundancy → Shared Document Library", desc: "A unified document repository visible to both CSHQ and RC users with role-specific ownership tags. Regional (RC) users can 'inherit' Headquarters (CSHQ) documents without re-uploading, automatically fulfilling their localized compliance requirements while retaining a single source of truth." },
+      { title: "Technician Constraints → Simplified GD User Interface", desc: "Large, high-contrast tap targets designed for greasy gloves, a stark dark mode to reduce glare in brightly lit garage bays, and a linear step-by-step wizard that removes all non-essential navigation elements." },
+      { title: "Approval Bottlenecks → Centralized SLA Queue", desc: "Replaced email chains with an in-app approval queue featuring automated SLA tracking. Approvers receive batched notifications and can approve multiple field fixes with a single click after reviewing the auto-summarized technical diffs." }
+    ],
     processTitle1: "Role-Based Information Architecture",
     processDesc1: "We started by mapping the precise data boundaries between headquarters, regional, and ground users. The architecture relies heavily on Role-Based Access Control (RBAC) to ensure that a QM Creator sees a completely different dashboard interface than an RC User, reducing cognitive load and preventing unauthorized data access.",
     processTitle2: "Segregation & Data Partitioning",
@@ -309,8 +333,9 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
       { value: "Global", label: "Seamless data segregation across regional (RC) and country-level markets." },
       { value: "1 system", label: "Scalable component library built to absorb future automotive modules." },
     ],
-    outcomeQuote: "The Osprey portal proves that enterprise-grade security and role-based access control don't have to come at the expense of a beautiful, intuitive user experience.",
-    outcomeQuoteAuthor: "Key Takeaway: Designing for Scale and Security",
+    outcomeQuote: "Osprey is in active development, currently rolling out to international markets and in pilot with all core role types.",
+    outcomeQuoteAuthor: "Status: 2026–Present",
+    reflectionText: "The biggest open question is whether GD Users in the field actually need offline access for areas with poor connectivity. The portal currently assumes a stable connection, but validating this with technicians working deep in service bays is the next immediate priority for testing.",
     prevCaseName: "KOVA Health Portal",
     prevCaseUrl: "kova",
     nextCaseName: "Honda PDI Automation",
@@ -573,8 +598,8 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     icon: "◆",
     heroImage: "/NONA_Banner.png",
     prototypeUrl: "https://www.figma.com/proto/1uQcL9UfxaNwMaQINRPkPV/Nona-Lifestyle?node-id=123-1192&t=cgGZihr7aPRSqlTl-8&scaling=scale-down-width&content-scaling=fixed&page-id=123%3A1191&starting-point-node-id=123%3A1192&hide-ui=1",
-    overviewP1: "NONA Lifestyle is designed exclusively for retail shop owners and wholesale buyers. Unlike consumer-facing sites, it allows businesses to place high-volume bulk orders directly from the manufacturer.",
-    overviewP2: "As the Senior UI/UX Designer, I led the end-to-end product design across desktop and mobile, solving complex data-entry challenges and establishing a scalable design system optimized for high data density.",
+    overviewP1: "NONA Lifestyle is designed exclusively for retail shop owners, wholesale buyers, vendors, and manufacturers. Unlike consumer-facing sites, it serves as a unified ecosystem allowing businesses to place high-volume bulk orders, manage their product catalog, and track manufacturing milestones.",
+    overviewP2: "As the Senior UI/UX Designer, I led the end-to-end product design across desktop and mobile, solving complex data-entry challenges and establishing a scalable design system for three distinct business roles.",
     problemQuestion: "How do we allow a buyer to select multiple sizes, each with its own distinct bulk quantity, in one seamless product interaction without causing immense cognitive overload?",
     problemCards: [
       { title: "Multi-Size Data Entry", desc: "Retailers need to order across an entire size run simultaneously (e.g., 100 Small, 150 Medium) in a single interaction." },
@@ -588,7 +613,7 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
       { value: "[X]%", label: "Revenue Growth", desc: "Increase in Average Order Value (AOV) through frictionless grid UI." }
     ],
     researchSectionTitle: "Discovery & Research",
-    researchDescription: "Initial sessions revealed B2B procurement differs fundamentally from casual consumer shopping. B2B buyers log in with high intent, working off spreadsheets. Quantity-per-size is the most critical metric for their profitability.",
+    researchDescription: "Conversations with the client team surfaced that B2B procurement differs fundamentally from casual consumer shopping. B2B buyers log in with high intent, working off spreadsheets. Quantity-per-size is the most critical metric for their profitability.",
     researchItems: [
       { title: "High Intent, Low Patience", desc: "B2B buyers don't window shop; they buy with intent and need extremely fast data entry." },
       { title: "The Ratio Matters", desc: "A retailer's profitability depends heavily on stocking the correct ratio of sizes based on demographics." },
@@ -678,10 +703,10 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
       { src: "/ProductsNova.png", heading: "Product Detail Grid" },
       { src: "/CartNova.png", heading: "Dynamic Auto-Cart" }
     ],
-    finalUi2Title: "Admin Portal",
-    finalUi2Description: "The internal dashboard for NONA Lifestyle staff to manage incoming wholesale orders, track fulfillment, and update dynamic pricing tiers across the platform.",
+    finalUi2Title: "Business Dashboard Home",
+    finalUi2Description: "The workspace each manufacturer, vendor, or buyer account uses to manage their own operations on NONA Lifestyle — tracking orders, managing their product catalog, inviting team members with role-based permissions, and handling invoices — without needing a sales rep in the loop for day-to-day operations.",
     finalUi2Images: [
-      { src: "/HomeNona.png", heading: "Admin Dashboard" },
+      { src: "/HomeNona.png", heading: "Business Dashboard Home" },
       { src: "/BuyerNona.png", heading: "Buyer Management" },
       { src: "/InvoicesNona.png", heading: "Invoice Tracking" }
     ],
@@ -1278,6 +1303,34 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
           </section>
         )}
 
+        {study.id === 'fuso-hawk' && study.designDecisions && (
+          <section className="w-full px-4 md:px-8 xl:px-12 py-20" style={{ backgroundColor: "var(--background)", borderTop: "1px solid var(--border)" }}>
+             <div className="reveal relative w-full max-w-[1100px] mx-auto">
+               <div className="reveal w-full flex flex-col justify-center items-center gap-2 mb-16">
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">05</span>
+                  <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                    From Findings to Decisions
+                  </h2>
+               </div>
+               
+               <div className="flex flex-col gap-8">
+                 {study.designDecisions.map((decision, idx) => (
+                   <div key={idx} className="reveal bg-[var(--section-bg-alt)] border border-[var(--border)] rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-start hover:border-[#BF4B0A]/50 transition-colors duration-300">
+                     <div className="w-full md:w-[30%]">
+                       <h3 className="text-xl font-bold text-[var(--foreground)] leading-tight">{decision.title}</h3>
+                     </div>
+                     <div className="w-full md:w-[70%]">
+                       <p className="text-[1rem] text-[var(--text-muted)] leading-relaxed">{decision.desc}</p>
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
+          </section>
+        )}
+
+
+
         {/* Detailed B2B User Personas */}
         {study.personas && study.personas.length > 0 && (
           <section className="w-full px-4 md:px-8 xl:px-12 py-20" style={{ backgroundColor: "var(--section-bg-alt)", borderTop: "1px solid var(--border)" }}>
@@ -1386,6 +1439,55 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
 
                <div className="reveal relative w-full rounded-[24px] overflow-hidden border-[4px] border-[var(--section-bg-alt)] shadow-[0_30px_60px_rgba(0,0,0,0.2),_0_0_0_1px_var(--border)] bg-[var(--section-bg-alt)]">
                   <img src={study.userFlowImage} alt="User Flow Architecture" className="w-full h-auto block" />
+               </div>
+             </div>
+          </section>
+        )}
+
+        {study.id === 'nona-lifestyle' && (
+          <section className="w-full px-4 md:px-8 xl:px-12 py-20" style={{ backgroundColor: "var(--section-bg-alt)", borderTop: "1px solid var(--border)" }}>
+             <div className="reveal relative w-full max-w-[1100px] mx-auto">
+               <div className="reveal w-full flex flex-col justify-center items-center gap-2 mb-16">
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">ONBOARDING</span>
+                  <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                    Onboarding for Three Different Roles
+                  </h2>
+               </div>
+               <div className="w-full flex justify-center mb-16">
+                 <p className="reveal max-w-[800px] text-center" style={{ fontSize: "1.15rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
+                   NONA Lifestyle isn't a single-sided marketplace — manufacturers, vendors, and buyers all onboard through the same platform but need different information captured upfront. New users self-select their role at signup, and business accounts provide GSTIN and company details as part of registration rather than as an afterthought — front-loading the trust verification a high-value B2B platform depends on.
+                 </p>
+               </div>
+               
+               <div className="reveal mb-16">
+                  <RoleSelector />
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 <div className="reveal relative p-8 rounded-2xl bg-[var(--glass-bg)] backdrop-blur-md text-[var(--foreground)] shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-[var(--glass-border)] group hover:border-[#4C9A8A]/50 transition-all duration-300">
+                    <h4 className="text-[1.1rem] font-bold text-[var(--foreground)] mb-2 group-hover:text-[#4C9A8A] transition-colors">Role-Based Signup</h4>
+                    <p className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed">Manufacturer, vendor, or buyer: each path leads to a tailored onboarding flow rather than one generic form.</p>
+                 </div>
+                 <div className="reveal relative p-8 rounded-2xl bg-[var(--glass-bg)] backdrop-blur-md text-[var(--foreground)] shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-[var(--glass-border)] group hover:border-[#4C9A8A]/50 transition-all duration-300">
+                    <h4 className="text-[1.1rem] font-bold text-[var(--foreground)] mb-2 group-hover:text-[#4C9A8A] transition-colors">Business Verification Upfront</h4>
+                    <p className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed">GSTIN and business details are captured during registration, not buried in settings — because every transaction on the platform is a high-value B2B commitment.</p>
+                 </div>
+                 <div className="reveal relative p-8 rounded-2xl bg-[var(--glass-bg)] backdrop-blur-md text-[var(--foreground)] shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-[var(--glass-border)] group hover:border-[#4C9A8A]/50 transition-all duration-300">
+                    <h4 className="text-[1.1rem] font-bold text-[var(--foreground)] mb-2 group-hover:text-[#4C9A8A] transition-colors">OTP-Based Trust</h4>
+                    <p className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed">Email or WhatsApp OTP verification keeps onboarding fast without sacrificing account security.</p>
+                 </div>
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                  <div className="w-full aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex items-center justify-center bg-[var(--background)]">
+                     <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">[PLACEHOLDER: Role-selection screen]</p>
+                  </div>
+                  <div className="w-full aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex items-center justify-center bg-[var(--background)]">
+                     <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">[PLACEHOLDER: OTP screen]</p>
+                  </div>
+                  <div className="w-full aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex items-center justify-center bg-[var(--background)]">
+                     <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">[PLACEHOLDER: Business details/GSTIN form]</p>
+                  </div>
                </div>
              </div>
           </section>
@@ -1667,7 +1769,7 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
             <div className="w-full max-w-[1100px] mx-auto">
               <div className="reveal w-full flex flex-col items-center mb-16">
                 <div className="flex justify-center items-center gap-4">
-                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">08</span>
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">{study.id === 'fuso-hawk' ? '06' : '08'}</span>
                   <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
                     {study.finalUiTitle || "Final UI"}
                   </h2>
@@ -1709,6 +1811,11 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
                           )}
 
                         </div>
+                        {img.desc && (
+                          <p className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed px-2 mt-2">
+                            {img.desc}
+                          </p>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -1717,6 +1824,59 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
             </div>
           </section>
         )}
+
+        {study.id === 'nona-lifestyle' && (
+          <>
+            <section className="w-full px-4 md:px-8 xl:px-12 py-20" style={{ backgroundColor: "var(--background)", borderTop: "1px solid var(--border)" }}>
+               <div className="reveal relative w-full max-w-[1100px] mx-auto">
+                 <div className="reveal w-full flex flex-col justify-center items-center gap-2 mb-16">
+                    <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">TRACKING</span>
+                    <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                      Making the Invisible Visible: Manufacturing Milestones
+                    </h2>
+                 </div>
+                 <div className="w-full flex justify-center mb-16">
+                   <p className="reveal max-w-[800px] text-center" style={{ fontSize: "1.15rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
+                     A generic "Processing" status means nothing to a buyer waiting weeks on a bulk order. Instead, the order detail screen breaks fulfillment into the stages a buyer actually understands and cares about: Raw Material, Cutting, Stitching/Sewing, Finishing, QC, and Packing — each with its own live progress percentage. For a buyer who needs to plan downstream retail operations around a delivery date, "30% through Cutting" is a fundamentally more trustworthy signal than "In Progress."
+                   </p>
+                 </div>
+                 
+                 <div className="reveal mb-8">
+                   <MilestoneTracker />
+                 </div>
+               </div>
+            </section>
+
+            <section className="w-full px-4 md:px-8 xl:px-12 py-20" style={{ backgroundColor: "var(--section-bg-alt)", borderTop: "1px solid var(--border)" }}>
+               <div className="reveal relative w-full max-w-[1100px] mx-auto">
+                 <div className="reveal w-full flex flex-col justify-center items-center gap-2 mb-16">
+                    <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">CUSTOM REQUESTS</span>
+                    <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                      Designing for the Non-Standard Request
+                    </h2>
+                 </div>
+                 <div className="w-full flex justify-center mb-16">
+                   <p className="reveal max-w-[800px] text-center" style={{ fontSize: "1.15rem", color: "var(--text-muted)", lineHeight: 1.6 }}>
+                     Not every buyer need fits a catalog listing. The Request for Quotation flow lets a buyer describe a custom project — target price, timeline, notes, even a logo upload — and hand it to a manufacturer as a structured brief instead of an unstructured email thread. It deliberately mirrors the standard order flow's shipping/details steps, so buyers only have to learn one mental model to cover both the catalog and custom paths.
+                   </p>
+                 </div>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="w-full aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex items-center justify-center bg-[var(--background)]">
+                       <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">[PLACEHOLDER: RFQ category/product selection]</p>
+                    </div>
+                    <div className="w-full aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex items-center justify-center bg-[var(--background)]">
+                       <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">[PLACEHOLDER: Project details]</p>
+                    </div>
+                    <div className="w-full aspect-[3/4] border-2 border-dashed border-[var(--border)] rounded-2xl flex items-center justify-center bg-[var(--background)]">
+                       <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">[PLACEHOLDER: Confirmation screen]</p>
+                    </div>
+                 </div>
+               </div>
+            </section>
+          </>
+        )}
+
 
         {/* Second Final UI Section (e.g. Admin Portal) */}
         {(study.finalUi2Image || (study.finalUi2Images && study.finalUi2Images.length > 0)) && (
@@ -1774,8 +1934,49 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
             </div>
           </section>
         )}
-
       </div>
+
+        {study.id === 'fuso-hawk' && (
+          <section className="w-full px-4 md:px-8 xl:px-12 py-20 bg-[var(--background)] border-t border-[var(--border)]">
+             <div className="w-full max-w-[1100px] mx-auto">
+               <div className="reveal w-full flex flex-col justify-center items-center gap-2 mb-16">
+                  <span className="text-sm uppercase tracking-[3px] text-[#BF4B0A] font-bold">07</span>
+                  <h2 className="font-serif font-normal text-[clamp(2rem,4vw,3.5rem)] text-[var(--foreground)] tracking-tighter text-center leading-none">
+                    Outcome & Reflection
+                  </h2>
+               </div>
+
+               <div className="flex flex-col gap-12">
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                   {study.outcomeMetrics.map((metric, idx) => (
+                     <div key={idx} className="reveal p-8 rounded-2xl bg-[var(--glass-bg)] border border-[var(--glass-border)] text-center shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+                       <h3 className="font-serif text-5xl md:text-6xl text-[#BF4B0A] mb-4">{metric.value}</h3>
+                       <p className="text-[1.05rem] text-[var(--foreground)] font-medium leading-relaxed">{metric.label}</p>
+                     </div>
+                   ))}
+                 </div>
+                 
+                 <div className="reveal w-full p-8 md:p-12 rounded-3xl bg-gradient-to-br from-[var(--section-bg-alt)] to-[var(--background)] border border-[#BF4B0A]/20">
+                   <p className="text-[1.2rem] md:text-[1.5rem] font-serif text-[var(--foreground)] leading-relaxed italic text-center mb-6">
+                     "{study.outcomeQuote}"
+                   </p>
+                   <p className="text-[1rem] text-[#BF4B0A] font-bold uppercase tracking-widest text-center">
+                     {study.outcomeQuoteAuthor}
+                   </p>
+                 </div>
+                 
+                 {study.reflectionText && (
+                   <div className="reveal w-full mt-4">
+                     <h4 className="text-2xl font-serif text-[var(--foreground)] mb-4">Looking Forward</h4>
+                     <p className="text-[1.05rem] text-[var(--text-muted)] leading-relaxed">
+                       {study.reflectionText}
+                     </p>
+                   </div>
+                 )}
+               </div>
+             </div>
+          </section>
+        )}
 
       
         {/* Challenges Section */}

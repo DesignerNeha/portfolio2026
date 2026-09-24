@@ -47,13 +47,12 @@ export default function Home() {
       {/* Global Navigation Header */}
       <Navbar />
 
-      {/* Core Layout Sections */}
       <main>
         <Hero />
         <Marquee />
         <About />
-        <Experience />
         <Projects />
+        <Experience />
         <Craft />
         <Contact />
       </main>
