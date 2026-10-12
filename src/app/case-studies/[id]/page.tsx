@@ -84,7 +84,6 @@ interface CaseStudyEnriched {
   userFlowImage?: string;
   designDecisions?: { title: string; desc: string }[];
   challengesText?: string;
-  reflectionText?: string;
   outcomeBullets?: string[];
   wireframesTitle?: string;
   wireframesDescription?: string;
@@ -335,7 +334,6 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     ],
     outcomeQuote: "Osprey is in active development, currently rolling out to international markets and in pilot with all core role types.",
     outcomeQuoteAuthor: "Status: 2026–Present",
-    reflectionText: "The biggest open question is whether GD Users in the field actually need offline access for areas with poor connectivity. The portal currently assumes a stable connection, but validating this with technicians working deep in service bays is the next immediate priority for testing.",
     prevCaseName: "KOVA Health Portal",
     prevCaseUrl: "kova",
     nextCaseName: "Honda PDI Automation",
@@ -430,7 +428,6 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
       "Standardized inspection quality across Honda dealerships",
       "Automated tracking of the 15-day re-inspection business rule"
     ],
-    reflectionText: "Field research with actual technicians shaped the design differently than initial stakeholder assumptions — reinforcing the importance of talking to real end users, not just business stakeholders, when designing workflow tools for non-tech-savvy audiences.",
     
     // Needed to satisfy interface
     businessObjectiveQuestion: "",
@@ -552,7 +549,6 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
       "A visual design system that improved on-screen readability in direct sunlight — a critical, often-overlooked accessibility factor",
       "Strengthened user trust through familiar, government-platform-style visual language"
     ],
-    reflectionText: "This project reinforced how much 'usability' changes depending on real-world context — sunlight readability and trust-building visuals mattered as much as standard UX principles like flow simplicity. Collaborating with IIT Delhi's research team also showed the value of grounding design decisions in field research for underserved user groups, rather than relying on typical urban-user assumptions.",
     
     // Required unused keys to satisfy interface
     businessObjectiveQuestion: "",
@@ -1085,24 +1081,26 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
         )}
 
         {/* View Prototype CTA */}
-        <div className="flex justify-center items-center mt-10">
-          <a
-            href={study.prototypeUrl || "#"}
-            target={study.prototypeUrl ? "_blank" : undefined}
-            rel={study.prototypeUrl ? "noopener noreferrer" : undefined}
-            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#BF4B0A] text-white font-medium text-base tracking-wide transition-all duration-300 hover:bg-[#a63f08] hover:shadow-[0_10px_30px_rgba(191,75,10,0.4)] hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
-          >
-            <span>View Prototype</span>
-            <svg
-              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        {study.prototypeUrl && (
+          <div className="flex justify-center items-center mt-10">
+            <a
+              href={study.prototypeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#BF4B0A] text-white font-medium text-base tracking-wide transition-all duration-300 hover:bg-[#a63f08] hover:shadow-[0_10px_30px_rgba(191,75,10,0.4)] hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
-        </div>
+              <span>View Prototype</span>
+              <svg
+                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        )}
       </div>
 
       {/* Main content sections */}
@@ -1964,15 +1962,6 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
                      {study.outcomeQuoteAuthor}
                    </p>
                  </div>
-                 
-                 {study.reflectionText && (
-                   <div className="reveal w-full mt-4">
-                     <h4 className="text-2xl font-serif text-[var(--foreground)] mb-4">Looking Forward</h4>
-                     <p className="text-[1.05rem] text-[var(--text-muted)] leading-relaxed">
-                       {study.reflectionText}
-                     </p>
-                   </div>
-                 )}
                </div>
              </div>
           </section>
@@ -2008,19 +1997,6 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
           </section>
         )}
 
-        {/* Reflection Section */}
-        {study.reflectionText && (
-          <section className="w-full px-4 md:px-8 xl:px-12 py-20 bg-[var(--section-bg-alt)] border-t border-[var(--border)]">
-            <div className="w-full max-w-[800px] mx-auto text-center">
-              <h2 className="font-serif font-normal text-4xl text-[#CC0000] tracking-tighter mb-8">Reflection</h2>
-              <p className="text-lg text-[var(--text-muted)] leading-relaxed italic border-t border-b border-[#CC0000]/20 py-8">
-                {study.reflectionText}
-              </p>
-            </div>
-          </section>
-        )}
-
-  
     </div>
   );
 }
