@@ -7,6 +7,8 @@ import { Sun, Moon } from "lucide-react";
 import Image from "next/image";
 import RoleSelector from "@/components/case-studies/nona-lifestyle/RoleSelector";
 import MilestoneTracker from "@/components/case-studies/nona-lifestyle/MilestoneTracker";
+import OspreyCaseStudy from "@/components/case-studies/osprey/OspreyCaseStudy";
+import HondaPdiCaseStudy from "@/components/case-studies/honda/HondaPdiCaseStudy";
 
 interface CaseStudyEnriched {
   id: string;
@@ -230,7 +232,7 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     outcomeQuoteAuthor: "Key Takeaway: Designing Extensible Sandboxes for Agentic Workflows",
     prevCaseName: "NONA Lifestyle",
     prevCaseUrl: "nona-lifestyle",
-    nextCaseName: "Osprey: FUSO Fleet & HAWK",
+    nextCaseName: "Osprey: Global Field Fix Portal",
     nextCaseUrl: "fuso-hawk",
   },
 
@@ -267,7 +269,7 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     specs: [
       { label: "My role", value: "Senior UI/UX Designer" },
       { label: "Timeline", value: "2026 – Present" },
-      { label: "Platform", value: "Responsive Web App (SaaS)" },
+      { label: "Platform", value: "Web App" },
       { label: "Tools", value: "Figma · FigJam · Figma Make" },
     ],
     gradient: "linear-gradient(135deg, #BF4B0A, #E07B3C)",
@@ -441,10 +443,10 @@ const caseStudiesData: Record<string, CaseStudyEnriched> = {
     outcomeMetrics: [],
     outcomeQuote: "",
     outcomeQuoteAuthor: "",
-    prevCaseName: "Osprey: FUSO Fleet & HAWK",
+    prevCaseName: "Osprey: Global Field Fix Portal",
     prevCaseUrl: "fuso-hawk",
-    nextCaseName: "Osprey: FUSO Fleet & HAWK",
-    nextCaseUrl: "fuso-hawk",
+    nextCaseName: "Digital Seva Portal",
+    nextCaseUrl: "seva",
     placeholders: {
       hero: "Hero Placeholder",
       ia: "IA Placeholder",
@@ -801,6 +803,9 @@ const aliasMap: Record<string, string> = {
   fusoCase: "fuso-hawk",
   "fuso-pnc": "fuso-hawk",
   "fuso-osprey": "fuso-hawk",
+  osprey: "fuso-hawk",
+  "osprey-portal": "fuso-hawk",
+  "global-field-fix": "fuso-hawk",
   honda: "honda-booking",
   hondaCase: "honda-booking",
   "honda-pdi": "honda-booking",
@@ -816,6 +821,28 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
   const resolvedParams = use(params);
   const targetId = aliasMap[resolvedParams.id] || resolvedParams.id;
   const study = caseStudiesData[targetId];
+
+  if (targetId === "fuso-hawk") {
+    return (
+      <OspreyCaseStudy
+        prevCaseName="KOVA: AI Prompt & Search Engine"
+        prevCaseUrl="kova"
+        nextCaseName="Honda PDI Automation"
+        nextCaseUrl="honda-booking"
+      />
+    );
+  }
+
+  if (targetId === "honda-booking") {
+    return (
+      <HondaPdiCaseStudy
+        prevCaseName="Osprey: Global Field Fix Portal"
+        prevCaseUrl="fuso-hawk"
+        nextCaseName="Digital Seva Portal"
+        nextCaseUrl="seva"
+      />
+    );
+  }
 
   const [scrollProgress, setScrollProgress] = useState(0);
   const mainRef = useRef<HTMLDivElement>(null);

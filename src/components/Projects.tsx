@@ -28,7 +28,7 @@ const officeProjects: ProjectCardData[] = [
     caseId: "fusoCase",
     tags: ["Enterprise RBAC", "Global Automotive", "2026"],
     gradient: "linear-gradient(135deg, #1A1813, #2E1B10)",
-    image: "/osprey_dashboard.jpg",
+    image: "/NewUI.jpg",
     description: "Role-based enterprise tool across dealer/service networks ensuring global compliance through a secure, sequential approval pipeline.",
   },
   {
