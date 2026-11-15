@@ -141,7 +141,11 @@ export function PdiRoleSwitcher() {
         </div>
 
         {/* Right: Screen Slot (PhoneSlot for Supervisor & Technician, ImageSlot for HMSI Admin) */}
-        <div className="w-full lg:w-[320px] shrink-0 flex justify-center">
+        <div
+          className={`w-full shrink-0 flex justify-center transition-all duration-300 ${
+            activeRole.isPhone ? "lg:w-[320px]" : "lg:w-[480px]"
+          }`}
+        >
           {activeRole.isPhone ? (
             <PhoneSlot
               label={activeRole.slotLabel}
@@ -149,11 +153,11 @@ export function PdiRoleSwitcher() {
               caption={`${activeRole.name} view: Focused solely on what this role needs.`}
             />
           ) : (
-            <div className="w-full max-w-[340px]">
+            <div className="w-full">
               <ImageSlot
                 label={activeRole.slotLabel}
-                aspectRatio="16/10"
-                src={activeRole.src}
+                aspectRatio="16/9"
+                src={pdiImages.adminChecklist || activeRole.src}
                 caption="HMSI Admin portal: Web-based checklist & per-model rule manager."
               />
             </div>

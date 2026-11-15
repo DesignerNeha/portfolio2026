@@ -194,6 +194,14 @@ body {
   transform: translateY(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 /* Selected Work hover states */
 .work-row:hover .work-title {
   color: #BF4B0A;

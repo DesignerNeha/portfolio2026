@@ -11,6 +11,8 @@ export interface ImageSlotProps {
   alignment?: "center" | "left" | "right";
   objectFit?: "cover" | "contain";
   objectPosition?: "top" | "center" | "bottom";
+  scrollable?: boolean;
+  maxScrollHeight?: string;
 }
 
 export function ImageSlot({
@@ -22,6 +24,8 @@ export function ImageSlot({
   alignment = "center",
   objectFit = "cover",
   objectPosition = "top",
+  scrollable = false,
+  maxScrollHeight = "520px",
 }: ImageSlotProps) {
   const hasImage = Boolean(src && src.trim().length > 0);
   const isAutoRatio = aspectRatio === "auto";
@@ -32,33 +36,59 @@ export function ImageSlot({
         className={`w-full relative overflow-hidden rounded-xl transition-all duration-300 ${
           isAutoRatio && !hasImage ? "aspect-[16/10]" : ""
         }`}
-        style={isAutoRatio ? undefined : { aspectRatio }}
+        style={scrollable ? undefined : isAutoRatio ? undefined : { aspectRatio }}
       >
         {hasImage ? (
-          <div
-            className={`w-full relative rounded-xl overflow-hidden bg-[#16140F] shadow-[0_16px_40px_rgba(0,0,0,0.45)] border border-[rgba(242,238,230,0.1)] ${
-              isAutoRatio ? "h-auto" : "h-full"
-            }`}
-          >
-            <img
-              src={src}
-              alt={caption || label}
-              className={`w-full block ${
-                isAutoRatio
-                  ? "h-auto"
-                  : `h-full ${
-                      objectFit === "contain" ? "object-contain" : "object-cover"
-                    } ${
-                      objectPosition === "center"
-                        ? "object-center"
-                        : objectPosition === "bottom"
-                        ? "object-bottom"
-                        : "object-top"
-                    }`
+          scrollable ? (
+            <div
+              className="w-full relative rounded-xl overflow-hidden bg-[#16140F] shadow-[0_16px_40px_rgba(0,0,0,0.45)] border border-[rgba(242,238,230,0.1)] flex flex-col"
+              style={{ maxHeight: maxScrollHeight }}
+            >
+              <div className="flex items-center justify-between px-3.5 py-2 bg-[#12110E] border-b border-[rgba(242,238,230,0.08)] shrink-0 z-10">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[rgba(242,238,230,0.2)]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[rgba(242,238,230,0.2)]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[rgba(242,238,230,0.2)]" />
+                </div>
+                <span className="text-[0.68rem] font-mono text-[#8C877D] tracking-wider uppercase">
+                  Scroll to view full page
+                </span>
+              </div>
+              <div className="w-full overflow-y-auto flex-1 overscroll-contain">
+                <img
+                  src={src}
+                  alt={caption || label}
+                  className="w-full h-auto block"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          ) : (
+            <div
+              className={`w-full relative rounded-xl overflow-hidden bg-[#16140F] shadow-[0_16px_40px_rgba(0,0,0,0.45)] border border-[rgba(242,238,230,0.1)] ${
+                isAutoRatio ? "h-auto" : "h-full"
               }`}
-              loading="lazy"
-            />
-          </div>
+            >
+              <img
+                src={src}
+                alt={caption || label}
+                className={`w-full block ${
+                  isAutoRatio
+                    ? "h-auto"
+                    : `h-full ${
+                        objectFit === "contain" ? "object-contain" : "object-cover"
+                      } ${
+                        objectPosition === "center"
+                          ? "object-center"
+                          : objectPosition === "bottom"
+                          ? "object-bottom"
+                          : "object-top"
+                      }`
+                }`}
+                loading="lazy"
+              />
+            </div>
+          )
         ) : (
           <div
             role="img"

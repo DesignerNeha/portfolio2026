@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import Background3D from "@/components/Background3D";
-import CustomCursor from "@/components/CustomCursor";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-sans",
@@ -62,7 +61,6 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-transparent text-[var(--foreground)] transition-colors duration-200">
-        <CustomCursor />
         <Background3D />
         {children}
       </body>

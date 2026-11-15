@@ -52,23 +52,23 @@ export interface PdiImagePaths {
 
 export const pdiImages: PdiImagePaths = {
   // 00 Hero comparison
-  paperChecksheetFull: "",
-  heroInitialCheck: "",
+  paperChecksheetFull: "/PDISheet.png",
+  heroInitialCheck: "/PDIIntialCheck.png",
   heroFunctionalCheck: "/honda_pdi_1.png",
-  heroRoadTest: "",
+  heroRoadTest: "/PDIRoadTest.png",
 
   // 02 Where we started
-  paperChecksheetCloseup: "",
+  paperChecksheetCloseup: "/PDISheet.png",
 
   // 04 Roles & Switcher
   supervisorVehicleList: "/honda_pdi_3.png",
   technicianAssignedList: "/honda_pdi_2.png",
-  adminChecklist: "",
+  adminChecklist: "/PDIHMSIView.png",
 
   // 06 Decision 1 (Three guided inspection parts)
-  initialCheckScreen: "",
+  initialCheckScreen: "/PDIIntialCheck.png",
   functionalCheckScreen: "/honda_pdi_1.png",
-  roadTestScreen: "",
+  roadTestScreen: "/PDIRoadTest.png",
 
   // 07 Decision 2 (Simplicity & clarity)
   simpleStep1: "/honda_pdi_2.png",
@@ -76,7 +76,7 @@ export const pdiImages: PdiImagePaths = {
   simpleStep3: "/IssueReporting_PDI.png",
 
   // 08 Decision 3 (Figma Prototype overview)
-  figmaPrototypeOverview: "",
+  figmaPrototypeOverview: "/PDIPrototype.mov",
 
   // 09 Decision 4 (Supervisor handoff)
   supervisorMultiSelect: "/SupervisorDashboard_PDI.png",
@@ -85,13 +85,13 @@ export const pdiImages: PdiImagePaths = {
 
   // 10 Decision 5 (Full journey & repairs)
   issuesListAfterPdi: "/IssueReporting_PDI.png",
-  completePdiScreen: "",
-  notOkListScreen: "",
+  completePdiScreen: "/CompletePDI.png",
+  notOkListScreen: "/NotOkListPDI.png",
   jobCardScreen: "/JobCard_PDI.png",
 
   // 11 Decision 6 (Admin panel)
-  adminPerModelCheckpoints: "",
-  adminVehicleTracking: "",
+  adminPerModelCheckpoints: "/PDIChecklist.png",
+  adminVehicleTracking: "/AdminPDITracking.png",
 
   // 12 Decision 7 (My Honda vs PDI)
   existingMyHondaScreen: "",
@@ -142,13 +142,5 @@ export const checksheetHotspots: ChecksheetHotspot[] = [
     explanation: "Both the service technician and the sales representative signed the page.",
     x: 76,
     y: 88,
-  },
-  {
-    id: "hotspot-filing",
-    number: 5,
-    label: "Filing",
-    explanation: "The dealer had to file the physical paper in binders for future reference.",
-    x: 22,
-    y: 90,
   },
 ];

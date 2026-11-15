@@ -9,6 +9,8 @@ import RoleSelector from "@/components/case-studies/nona-lifestyle/RoleSelector"
 import MilestoneTracker from "@/components/case-studies/nona-lifestyle/MilestoneTracker";
 import OspreyCaseStudy from "@/components/case-studies/osprey/OspreyCaseStudy";
 import HondaPdiCaseStudy from "@/components/case-studies/honda/HondaPdiCaseStudy";
+import DigitalSevaCaseStudy from "@/components/case-studies/digital-seva/DigitalSevaCaseStudy";
+import NonaCaseStudy from "@/components/case-studies/nona-lifestyle/NonaCaseStudy";
 
 interface CaseStudyEnriched {
   id: string;
@@ -840,6 +842,28 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
         prevCaseUrl="fuso-hawk"
         nextCaseName="Digital Seva Portal"
         nextCaseUrl="seva"
+      />
+    );
+  }
+
+  if (targetId === "seva") {
+    return (
+      <DigitalSevaCaseStudy
+        prevCaseName="PDI Automation Module — My Honda App"
+        prevCaseUrl="honda-booking"
+        nextCaseName="NONA Lifestyle"
+        nextCaseUrl="nona-lifestyle"
+      />
+    );
+  }
+
+  if (targetId === "nona-lifestyle") {
+    return (
+      <NonaCaseStudy
+        prevCaseName="Digital Seva"
+        prevCaseUrl="seva"
+        nextCaseName="KOVA Health Portal"
+        nextCaseUrl="kova"
       />
     );
   }
@@ -1815,35 +1839,68 @@ export default function CaseStudyPage({ params }: { params: Promise<{ id: string
                   </div>
                 )}
                 {study.finalUiImages && study.finalUiImages.length > 0 && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                    {study.finalUiImages.map((img, idx) => (
-                      <div key={idx} className="reveal relative w-full flex flex-col gap-4">
-                        {img.heading && (
-                          <h3 className="font-serif text-xl md:text-2xl text-[var(--foreground)] px-2">
-                            {img.heading}
-                          </h3>
-                        )}
-                        <div className={`relative w-full ${study.id === 'honda-booking' ? 'aspect-[3/4]' : 'aspect-[4/3]'} rounded-2xl overflow-hidden border border-[var(--border)]/30`} style={{ backgroundColor: "var(--section-bg-alt)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
-                          
-                          {img.src === "placeholder" ? (
-                             <div className="w-full h-full flex items-center justify-center bg-[var(--section-bg-alt)]">
-                               <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">
-                                 [IMAGE PLACEHOLDER: {img.heading}]
-                               </p>
-                             </div>
-                          ) : (
-                             <img src={img.src} alt={img.heading || `Final UI Screenshot ${idx + 1}`} className={`w-full h-full block ${study.id === 'honda-booking' ? 'object-contain py-4' : 'object-cover object-top'}`} />
+                  study.id === "seva" ? (
+                    <div className="flex flex-col gap-12 sm:gap-16 w-full">
+                      {study.finalUiImages.map((img, idx) => (
+                        <div key={idx} className="reveal relative w-full flex flex-col gap-4">
+                          {img.heading && (
+                            <div className="flex items-center gap-3 px-1">
+                              <span className="w-2.5 h-2.5 rounded-full bg-[#BF4B0A]" />
+                              <h3 className="font-serif text-2xl md:text-3xl text-[var(--foreground)] tracking-tight">
+                                {img.heading}
+                              </h3>
+                            </div>
                           )}
-
+                          <div
+                            className="relative w-full rounded-2xl overflow-hidden border border-[var(--border)]/30 shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
+                            style={{ backgroundColor: "var(--section-bg-alt)" }}
+                          >
+                            <img
+                              src={img.src}
+                              alt={img.heading || `Final UI Screenshot ${idx + 1}`}
+                              className="w-full h-auto block"
+                              loading="lazy"
+                            />
+                          </div>
+                          {img.desc && (
+                            <p className="text-[0.98rem] text-[var(--text-muted)] leading-relaxed px-2 mt-1 max-w-[850px]">
+                              {img.desc}
+                            </p>
+                          )}
                         </div>
-                        {img.desc && (
-                          <p className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed px-2 mt-2">
-                            {img.desc}
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                      {study.finalUiImages.map((img, idx) => (
+                        <div key={idx} className="reveal relative w-full flex flex-col gap-4">
+                          {img.heading && (
+                            <h3 className="font-serif text-xl md:text-2xl text-[var(--foreground)] px-2">
+                              {img.heading}
+                            </h3>
+                          )}
+                          <div className={`relative w-full ${study.id === 'honda-booking' ? 'aspect-[3/4]' : 'aspect-[4/3]'} rounded-2xl overflow-hidden border border-[var(--border)]/30`} style={{ backgroundColor: "var(--section-bg-alt)", boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}>
+                            
+                            {img.src === "placeholder" ? (
+                               <div className="w-full h-full flex items-center justify-center bg-[var(--section-bg-alt)]">
+                                 <p className="text-[var(--text-muted)] font-mono text-sm tracking-widest text-center px-4">
+                                   [IMAGE PLACEHOLDER: {img.heading}]
+                                 </p>
+                               </div>
+                            ) : (
+                               <img src={img.src} alt={img.heading || `Final UI Screenshot ${idx + 1}`} className={`w-full h-full block ${study.id === 'honda-booking' ? 'object-contain py-4' : 'object-cover object-top'}`} />
+                            )}
+
+                          </div>
+                          {img.desc && (
+                            <p className="text-[0.95rem] text-[var(--text-muted)] leading-relaxed px-2 mt-2">
+                              {img.desc}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )
                 )}
               </div>
             </div>

@@ -1,142 +1,181 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
 
-const STAGES = [
-  { id: "raw", title: "Raw Material", desc: "Sourcing and verifying fabric, threads, and trims.", samplePct: "100%" },
-  { id: "cutting", title: "Cutting", desc: "Spreading fabric and cutting patterns for the bulk order.", samplePct: "100%" },
-  { id: "stitching", title: "Stitching/Sewing", desc: "Assembling the garments. This is usually the longest phase.", samplePct: "65%" },
-  { id: "finishing", title: "Finishing", desc: "Washing, ironing, and final threading adjustments.", samplePct: "0%" },
-  { id: "qc", title: "QC", desc: "Quality Control checks against the approved golden sample.", samplePct: "0%" },
-  { id: "packing", title: "Packing", desc: "Folding, tagging, and boxing for final shipment.", samplePct: "0%" }
+interface MilestoneStage {
+  id: string;
+  title: string;
+  desc: string;
+  samplePct: string;
+  status: "Completed" | "In progress" | "Upcoming";
+}
+
+const STAGES: MilestoneStage[] = [
+  {
+    id: "raw",
+    title: "Raw Material",
+    desc: "Sourcing and verifying fabric, threads, and trims against approved specifications.",
+    samplePct: "100%",
+    status: "Completed",
+  },
+  {
+    id: "cutting",
+    title: "Cutting",
+    desc: "Spreading fabric layers and precision pattern cutting for the bulk order.",
+    samplePct: "100%",
+    status: "Completed",
+  },
+  {
+    id: "stitching",
+    title: "Stitching/Sewing",
+    desc: "Assembling garments across the production line. This is the primary manufacturing phase.",
+    samplePct: "65%",
+    status: "In progress",
+  },
+  {
+    id: "finishing",
+    title: "Finishing",
+    desc: "Washing, pressing, thread trimming, and button/zipper attachment.",
+    samplePct: "0%",
+    status: "Upcoming",
+  },
+  {
+    id: "qc",
+    title: "QC",
+    desc: "Quality control inspection against the golden sample, checking measurements and tolerances.",
+    samplePct: "0%",
+    status: "Upcoming",
+  },
+  {
+    id: "packing",
+    title: "Packing",
+    desc: "Folding, poly-bagging, size-ratio tagging, and carton boxing for final carrier pickup.",
+    samplePct: "0%",
+    status: "Upcoming",
+  },
 ];
 
-export default function MilestoneTracker() {
-  const [activeStage, setActiveStage] = useState(2); // Default to Stitching to show mixed progress
-  const [progressFill, setProgressFill] = useState(0);
+export function MilestoneTracker() {
+  const [activeStage, setActiveStage] = useState(2); // Stitching/Sewing (65%)
 
-  useEffect(() => {
-    // Animate progress bar on load
-    const timer = setTimeout(() => {
-      // Set to the center of the active stage
-      const target = ((activeStage) / (STAGES.length - 1)) * 100;
-      setProgressFill(target);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [activeStage]);
+  const current = STAGES[activeStage];
+  const progressPercent = (activeStage / (STAGES.length - 1)) * 100;
 
   return (
-    <div className="w-full max-w-[800px] mx-auto bg-[var(--section-bg-alt)] border border-[var(--border)] rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-      {/* Decorative BG */}
-      <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-[#4C9A8A]/5 to-transparent pointer-events-none"></div>
-
-      <div className="flex justify-between items-center mb-8 relative z-10">
-        <div>
-          <h3 className="text-xl font-bold text-[var(--foreground)] tracking-tight">Order #NL-88492</h3>
-          <p className="text-sm text-[var(--text-muted)]">Bulk T-Shirts (Black, Navy)</p>
-        </div>
-        <div className="text-right">
-          <span className="inline-block px-3 py-1 bg-[#4C9A8A]/10 text-[#4C9A8A] text-xs font-bold uppercase tracking-wider rounded-full border border-[#4C9A8A]/20">
-            In Production
+    <div className="w-full bg-[#16140F] border border-[rgba(242,238,230,0.12)] rounded-2xl p-6 sm:p-8 flex flex-col gap-6 shadow-2xl text-[#F2EEE6]">
+      {/* Header Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(242,238,230,0.08)] pb-4">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#BF4B0A] animate-pulse" />
+          <span className="text-[0.78rem] font-mono uppercase tracking-wider text-[#BF4B0A] font-semibold">
+            Live Order Tracking
           </span>
+          <span className="text-[0.7rem] font-mono uppercase px-2 py-0.5 rounded bg-[rgba(191,75,10,0.15)] border border-[rgba(191,75,10,0.3)] text-[#F2EEE6]">
+            Sample data
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 text-[0.75rem] font-mono text-[#8C877D]">
+          <span>Order #NL-88492</span>
+          <span>•</span>
+          <span className="text-[#BF4B0A]">Stitching at 65%</span>
         </div>
       </div>
 
-      {/* Stepper */}
-      <div className="relative mb-12 mt-6 z-10">
-        {/* Track */}
-        <div className="absolute top-1/2 left-0 w-full h-2 bg-[var(--background)] -translate-y-1/2 rounded-full border border-[var(--border)] overflow-hidden">
-          {/* Fill */}
-          <motion.div 
-            className="h-full bg-gradient-to-r from-[#2B574E] to-[#4C9A8A] rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progressFill}%` }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          ></motion.div>
-        </div>
+      <div className="flex flex-col gap-1 text-left">
+        <h4 className="text-[1.1rem] font-semibold text-[#F2EEE6]">
+          Six Manufacturing Stages (Click any stage)
+        </h4>
+        <p className="text-[0.88rem] text-[#B5B0A4] leading-relaxed">
+          Instead of an uninformative &ldquo;Processing&rdquo; label, buyers follow each discrete manufacturing phase with its own live progress.
+        </p>
+      </div>
 
-        {/* Nodes */}
-        <div className="relative flex justify-between">
+      {/* Stepper Rail */}
+      <div className="relative py-4">
+        {/* Background Track */}
+        <div className="absolute top-1/2 left-4 right-4 -translate-y-1/2 h-1.5 bg-[#12110E] rounded-full border border-[rgba(242,238,230,0.08)]" />
+
+        {/* Progress Fill */}
+        <div
+          className="absolute top-1/2 left-4 -translate-y-1/2 h-1.5 bg-gradient-to-r from-[#A33F08] to-[#BF4B0A] rounded-full transition-all duration-300"
+          style={{ width: `calc(${progressPercent}% * 0.92)` }}
+        />
+
+        {/* Stage Nodes */}
+        <div className="relative flex justify-between items-center z-10">
           {STAGES.map((stage, idx) => {
             const isCompleted = idx < activeStage;
             const isCurrent = idx === activeStage;
-            const isPending = idx > activeStage;
 
             return (
-              <div 
-                key={stage.id} 
-                className="flex flex-col items-center cursor-pointer group"
+              <button
+                key={stage.id}
+                type="button"
                 onClick={() => setActiveStage(idx)}
+                aria-label={`View stage ${idx + 1}: ${stage.title}`}
+                className="flex flex-col items-center gap-2 group cursor-pointer focus:outline-none"
               >
-                <div 
-                  className={`
-                    w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 relative z-10
-                    ${isCompleted ? 'bg-[#4C9A8A] text-[var(--background)] shadow-[0_0_15px_rgba(76,154,138,0.4)]' : ''}
-                    ${isCurrent ? 'bg-[var(--section-bg-alt)] border-[3px] border-[#4C9A8A] text-[#4C9A8A]' : ''}
-                    ${isPending ? 'bg-[var(--background)] border-2 border-[var(--border)] text-[var(--text-muted)] group-hover:border-[#4C9A8A]/50' : ''}
-                  `}
+                <div
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-mono text-xs font-bold transition-all ${
+                    isCurrent
+                      ? "bg-[#BF4B0A] text-white ring-4 ring-[#BF4B0A]/30 scale-110 shadow-lg"
+                      : isCompleted
+                      ? "bg-[#1C1812] border border-[#BF4B0A] text-[#BF4B0A]"
+                      : "bg-[#12110E] border border-[rgba(242,238,230,0.15)] text-[#8C877D] hover:border-[rgba(242,238,230,0.3)] hover:text-[#F2EEE6]"
+                  }`}
                 >
                   {isCompleted ? (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
                     </svg>
                   ) : (
-                    <span className="text-xs font-bold">{idx + 1}</span>
+                    <span>{idx + 1}</span>
                   )}
                 </div>
-                
-                <div className="absolute top-10 w-24 text-center -ml-8">
-                  <span className={`text-xs font-medium transition-colors ${isCurrent ? 'text-[var(--foreground)]' : 'text-[var(--text-muted)] group-hover:text-[var(--foreground)]'}`}>
-                    {stage.title}
-                  </span>
-                </div>
-              </div>
+
+                <span
+                  className={`text-[0.72rem] sm:text-[0.78rem] font-medium text-center hidden sm:block max-w-[80px] transition-colors ${
+                    isCurrent
+                      ? "text-[#F2EEE6] font-semibold"
+                      : "text-[#8C877D] group-hover:text-[#F2EEE6]"
+                  }`}
+                >
+                  {stage.title}
+                </span>
+              </button>
             );
           })}
         </div>
       </div>
 
-      {/* Details Panel */}
-      <div className="mt-16 bg-[var(--background)] border border-[var(--border)] rounded-xl p-6 relative z-10 h-[140px]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeStage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between h-full"
-          >
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-[#4C9A8A] font-bold uppercase tracking-wider text-sm">{STAGES[activeStage].title}</span>
-                {idxToStatus(activeStage, activeStage)}
-              </div>
-              <p className="text-[var(--text-muted)] text-sm leading-relaxed max-w-[400px]">
-                {STAGES[activeStage].desc}
-              </p>
-            </div>
-            
-            <div className="bg-[var(--section-bg-alt)] p-4 rounded-lg border border-[var(--border)] text-center min-w-[120px]">
-              <span className="block text-[2rem] font-mono font-bold text-[var(--foreground)] leading-none mb-1">
-                {STAGES[activeStage].samplePct}
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold">Completion</span>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+      {/* Selected Stage Detail Card */}
+      <div className="p-4 sm:p-5 rounded-xl bg-[#12110E] border border-[rgba(242,238,230,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-left">
+        <div className="flex flex-col gap-1 max-w-xl">
+          <div className="flex items-center gap-2">
+            <span className="text-[0.74rem] font-mono uppercase tracking-wider text-[#BF4B0A] font-semibold">
+              Stage {activeStage + 1} of 6
+            </span>
+            <span className="text-xs text-[#8C877D]">•</span>
+            <span className="text-[0.75rem] font-mono text-[#8C877D]">
+              Status: {current.status}
+            </span>
+          </div>
+          <h5 className="text-[1.05rem] font-semibold text-[#F2EEE6]">
+            {current.title} — {current.samplePct}
+          </h5>
+          <p className="text-[0.85rem] text-[#B5B0A4] leading-relaxed">
+            {current.desc}
+          </p>
+        </div>
+
+        <div className="shrink-0 p-3 rounded-lg bg-[#181611] border border-[rgba(242,238,230,0.08)] flex sm:flex-col items-center gap-2 w-full sm:w-auto justify-between sm:justify-center">
+          <span className="text-[0.72rem] font-mono text-[#8C877D] uppercase">Phase Progress</span>
+          <span className="text-xl font-bold font-mono text-[#BF4B0A]">{current.samplePct}</span>
+        </div>
       </div>
     </div>
   );
 }
 
-function idxToStatus(idx: number, activeIdx: number) {
-  if (idx < activeIdx) {
-    return <span className="bg-[#4C9A8A]/20 text-[#4C9A8A] text-[10px] px-2 py-0.5 rounded font-bold uppercase">Completed</span>;
-  }
-  if (idx === activeIdx) {
-    return <span className="bg-yellow-500/20 text-yellow-500 text-[10px] px-2 py-0.5 rounded font-bold uppercase animate-pulse">In Progress</span>;
-  }
-  return <span className="bg-gray-500/20 text-gray-400 text-[10px] px-2 py-0.5 rounded font-bold uppercase">Pending</span>;
-}
+export default MilestoneTracker;

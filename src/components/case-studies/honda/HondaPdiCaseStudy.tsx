@@ -13,7 +13,7 @@ import PdiJourneyDiagram from "./PdiJourneyDiagram";
 import CheckpointSorter from "./CheckpointSorter";
 import SupervisorAssignMock from "./SupervisorAssignMock";
 import AdminChecklistMock from "./AdminChecklistMock";
-import SharedPatternsCompare from "./SharedPatternsCompare";
+import FigmaPrototypeVideo from "./FigmaPrototypeVideo";
 import { pdiImages } from "./pdi-images";
 
 const poppins = Poppins({
@@ -204,9 +204,9 @@ export function HondaPdiCaseStudy({
             </div>
           </div>
 
-          {/* Large Hero Before / After Slider */}
+          {/* Hero Before / After Comparison */}
           <div className="w-full">
-            <PdiHeroSlider initialPosition={48} />
+            <PdiHeroSlider />
           </div>
 
           {/* At-a-glance Row of 5 Chips */}
@@ -604,14 +604,9 @@ export function HondaPdiCaseStudy({
             </div>
           </div>
 
-          {/* Slots: Figma prototype overview (wide) */}
+          {/* Figma prototype video walkthrough */}
           <div className="w-full">
-            <ImageSlot
-              label="Figma prototype overview"
-              aspectRatio="21/9"
-              src={pdiImages.figmaPrototypeOverview}
-              caption="Figma prototype: Complete interactive map tested across 3 dealership showroom walkthroughs."
-            />
+            <FigmaPrototypeVideo />
           </div>
         </section>
 
@@ -831,8 +826,6 @@ export function HondaPdiCaseStudy({
               </p>
             </div>
           </div>
-
-          <SharedPatternsCompare />
         </section>
 
         {/* =========================================================

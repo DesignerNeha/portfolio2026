@@ -10,6 +10,10 @@ export interface PhoneSlotProps {
   alignment?: "center" | "left" | "right";
   /** Optional scale or rotation for overlapping hero arrangements */
   style?: React.CSSProperties;
+  /** Optional custom border radius for the phone frame */
+  chassisRadius?: string;
+  /** Optional custom border radius for the inner screen */
+  screenRadius?: string;
 }
 
 export function PhoneSlot({
@@ -19,6 +23,8 @@ export function PhoneSlot({
   className = "",
   alignment = "center",
   style,
+  chassisRadius = "rounded-[22px] sm:rounded-[26px]",
+  screenRadius = "rounded-[16px] sm:rounded-[20px]",
 }: PhoneSlotProps) {
   const hasImage = Boolean(src && src.trim().length > 0);
 
@@ -26,7 +32,7 @@ export function PhoneSlot({
     <figure className={`flex flex-col gap-2.5 items-center ${className}`} style={style}>
       {/* Phone chassis */}
       <div
-        className="w-full max-w-[310px] relative rounded-[38px] sm:rounded-[44px] p-[5px] sm:p-[6px] transition-all duration-300"
+        className={`w-full max-w-[310px] relative ${chassisRadius} p-[5px] sm:p-[6px] transition-all duration-300`}
         style={{
           backgroundColor: "#1C1A16",
           border: "4px solid #2C2923",
@@ -44,7 +50,7 @@ export function PhoneSlot({
 
         {/* Screen container with 9:19.5 aspect ratio */}
         <div
-          className="w-full relative overflow-hidden rounded-[30px] sm:rounded-[36px] bg-[#12110E]"
+          className={`w-full relative overflow-hidden ${screenRadius} bg-[#12110E]`}
           style={{ aspectRatio: "9/19.5" }}
         >
           {hasImage ? (

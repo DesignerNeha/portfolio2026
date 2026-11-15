@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { pdiImages, checksheetHotspots, ChecksheetHotspot } from "./pdi-images";
-import ImageSlot from "../osprey/ImageSlot";
 
 export function AnnotatedChecksheet() {
   const [activeHotspotId, setActiveHotspotId] = useState<string>("hotspot-handwritten");
@@ -29,7 +28,7 @@ export function AnnotatedChecksheet() {
         <div className="lg:col-span-7 relative rounded-xl overflow-hidden border border-[rgba(242,238,230,0.12)] bg-[#12110E] p-4 sm:p-6 shadow-inner">
           <div
             className="w-full relative rounded-lg overflow-hidden border border-[rgba(242,238,230,0.08)] bg-[#171511]"
-            style={{ aspectRatio: "3/4" }}
+            style={{ aspectRatio: pdiImages.paperChecksheetFull ? "700/1070" : "3/4" }}
           >
             {pdiImages.paperChecksheetFull ? (
               <img
@@ -128,7 +127,7 @@ export function AnnotatedChecksheet() {
         <div className="lg:col-span-5 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <span className="text-[0.78rem] uppercase font-semibold tracking-wider text-[#DC2626]">
-              Five Friction Points
+              Four Friction Points
             </span>
             <p className="text-[0.84rem] text-[#B5B0A4] leading-relaxed">
               Every detail was manual, unguided, and dependent on physical paperwork.
@@ -183,16 +182,6 @@ export function AnnotatedChecksheet() {
                 </div>
               );
             })}
-          </div>
-
-          {/* Paper Checksheet Close-up Slot */}
-          <div className="w-full mt-2">
-            <ImageSlot
-              label="Paper checksheet close-up"
-              aspectRatio="16/9"
-              src={pdiImages.paperChecksheetCloseup}
-              caption="Close-up: 40+ checkpoints crammed beside vehicle diagrams without inspection order."
-            />
           </div>
         </div>
       </div>
